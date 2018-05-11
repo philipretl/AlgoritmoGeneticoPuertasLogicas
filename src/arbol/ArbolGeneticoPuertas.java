@@ -41,11 +41,12 @@ public class ArbolGeneticoPuertas {
 		int biRand=0;
 		boolean flag = nodo.getDatos() instanceof Integer;
 
-		if(altura==0){// este para si viene numeros
+		if(altura==0 || flag){// este para si viene numeros
 			return;
 		}else{
 
 			if(!flag & altura==0){//falta agregar el valor del nodo;
+				System.out.println("ultimo nivel");
 				biRand = (int) (Math.random()* 2); 
 			   //System.out.println("bi rand: " + biRand);
 			   nodo.setDatos(biRand); 
@@ -60,27 +61,38 @@ public class ArbolGeneticoPuertas {
 
 					if(nodo.getDatos() instanceof Not){// si es una instancia de not no se iria por las dos caminos
 							biRand = (int) (Math.random()* 2); 
-							Nodo nodo2= new Nodo(id);
+							
+							Nodo nodo1= new Nodo(id);
 							id++;
+							
 							
 							if(biRand==0){
 
 								numRand = (int) (Math.random() * operaciones.size());  
 								oper= operaciones.get(numRand);   
-								nodo2.setDatos(oper);
+								nodo1.setDatos(oper);
 
 							}else{
 
 								biRand = (int) (Math.random()* 2); 
 								//System.out.println("bi rand: " + biRand);
 
-								nodo2.setDatos(biRand);
+								nodo1.setDatos(biRand);
 
 							}
-
-							nodo.setHojaIzquierda(nodo2);
-							addNodo(nodo2,altura-1);
-
+							biRand = (int) (Math.random()* 2); 
+								
+							if(biRand==0){
+							
+								nodo.setHojaIzquierda(nodo1);
+								addNodo(nodo1,altura-1);
+							}else{
+								
+								nodo.setHojaDerecha(nodo1);
+								addNodo(nodo1,altura-1);
+							}
+							
+							
 
 					}else{// fue un operador binario
 						
@@ -91,11 +103,7 @@ public class ArbolGeneticoPuertas {
 						Nodo nodo2= new Nodo(id);
 						id++;
 						
-						if(nodo.getDatos() instanceof Integer) {
-							biRand=0;
-							System.out.println("nodo es numero " + nodo.getDatos());
-						}
-						
+											
 						if(biRand==0){
 
 							numRand = (int) (Math.random() * operaciones.size());  
@@ -123,12 +131,6 @@ public class ArbolGeneticoPuertas {
 						Nodo nodo3= new Nodo(id);
 						id++;
 						
-						
-						if(nodo.getDatos() instanceof Integer) {
-							System.out.println("nodo es numero " + nodo.getDatos());
-							biRand=0;
-						}
-						
 						if(biRand==0){
 
 							numRand = (int) (Math.random() * operaciones.size());  
@@ -138,6 +140,7 @@ public class ArbolGeneticoPuertas {
 						}else{
 
 							biRand = (int) (Math.random()* 2); 
+							nodo3.setDatos(biRand);
 							//System.out.println("bi rand: " + biRand);nodo3.setDatos(biRand);
 
 						}
