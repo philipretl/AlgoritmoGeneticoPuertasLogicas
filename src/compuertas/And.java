@@ -48,7 +48,7 @@ public class And extends Operacion {
 	@Override
 	public int operar(Object valor1, Object valor2) {
 		int result;
-		if ((Integer)valor1==(Integer)valor2){
+		if ((Integer)valor1==(Integer)valor2 & (Integer)valor1==1){
 			result = 1;
 		}else{
 			result = 0;

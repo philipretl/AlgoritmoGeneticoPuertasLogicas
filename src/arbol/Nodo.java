@@ -21,8 +21,9 @@ public class Nodo <T>{
     //public Nodo(T datosNodo)
     public Nodo(int id){
 		
-		nodoizquierdo = nododerecho = null; //el nodo no tiene hijos
-		this.id=id;
+		//nodoizquierdo = nododerecho = null; //el nodo no tiene hijos
+		
+                this.id=id;
     }
 
 	public int getId() {

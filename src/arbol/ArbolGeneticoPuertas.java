@@ -46,11 +46,11 @@ public class ArbolGeneticoPuertas {
 			
 		}else{
 			
-			System.out.println("altura :" +altura + "entero? : "+ flag);	
+			//System.out.println("altura :" +altura + "entero? : "+ flag);	
 			if(altura==0){//falta agregar el valor del nodo;//20.57
 				
 				if(!flag){
-					System.out.println("ultimo nivel");
+					//System.out.println("ultimo nivel");
 					biRand = (int) (Math.random()* 2); 
 					//System.out.println("bi rand: " + biRand);
 					nodo.setDatos(biRand);
@@ -176,7 +176,7 @@ public class ArbolGeneticoPuertas {
 		
 		oper=operaciones.get(numRand);  
 		
-		System.out.println("numRand" + numRand);
+		//System.out.println("numRand" + numRand);
 		nodo.setDatos(oper);
 		
 		this.addNodo(nodo,(altura-1));
@@ -265,7 +265,7 @@ public class ArbolGeneticoPuertas {
         
         ayudanteInorden(nodo.nododerecho);
     }
-    
+    /*
 	 //EMPEZAR RECORRIDO PORORDEN
     public synchronized void recorridoPosorden()
     {
@@ -289,60 +289,62 @@ public class ArbolGeneticoPuertas {
 		}
     }
    
+	*/
 	
 	
-	
-	public synchronized int operarArbol(Nodo nodo){
-		
-		if(nodo.getHojaIzquierda()!= null || nodo.getHojaDerecha()!=null){
-			if (nodo.getHojaIzquierda().getDatos() instanceof Integer & nodo.getHojaDerecha().getDatos() instanceof Integer){
-				Operacion oper = (Operacion) nodo.getDatos();
-				return oper.operar(nodo.getHojaIzquierda().getDatos(),nodo.getHojaDerecha().getDatos() );
-			}else{
+    public synchronized int operarArbol(Nodo nodo){
 
-				if (!(nodo.getHojaIzquierda().getDatos() instanceof Integer) & !(nodo.getHojaDerecha().getDatos() instanceof Integer)){
-					Operacion oper = (Operacion) nodo.getDatos();
-					return oper.operar(operarArbol(nodo.getHojaIzquierda()),operarArbol(nodo.getHojaDerecha()));
-				}else{	
-					if(!(nodo.getHojaIzquierda().getDatos() instanceof Integer)){
-						Operacion oper = (Operacion) nodo.getDatos();
-						return oper.operar(operarArbol(nodo.getHojaIzquierda()),nodo.getHojaDerecha().getDatos() );
-					}else{
-						Operacion oper= (Operacion) nodo.getDatos();
-						return oper.operar(operarArbol(nodo.getHojaDerecha()),nodo.getHojaIzquierda().getDatos() );	
+        if(nodo.getHojaIzquierda()== null || nodo.getHojaDerecha()==null){
+            return 0;
+        }else{
+                if (nodo.getHojaIzquierda().getDatos() instanceof Integer & nodo.getHojaDerecha().getDatos() instanceof Integer){
+                        Operacion oper = (Operacion) nodo.getDatos();
+                        return oper.operar(nodo.getHojaIzquierda().getDatos(),nodo.getHojaDerecha().getDatos() );
+                }else{
 
-					}
-				}
-			}
-		
-		}	//para borrar
-		return 0;//borrar
-	}
-	
-	/*public synchronized int operarArbolTail(Nodo nod, Nod nod){
-		
-		if(nod.getDatos() instanceof Integer & nod.getDatos() instanceof Integer ){
-			
-			operacion = oper.operar(nod.getHojaIzquierda().getDatos(), nod.getHojaDerecha().getDatos());
-			return operacion;
-		
-		}else{
-			if(!(nod.getHojaIzquierda().getDatos() instanceof Integer) & !(nod.getHojaDerecha().getDatos() instanceof Integer)){
-				return operarArbol(nod.getHojaIzquierda());
-				
-			}else{
-				if(nod.getHojaIzquierda().getDatos() instanceof Integer){
-					//
-					
-					return operarArbolTail();
-				}else{
+                        if (!(nodo.getHojaIzquierda().getDatos() instanceof Integer) & !(nodo.getHojaDerecha().getDatos() instanceof Integer)){
+                                Operacion oper = (Operacion) nodo.getDatos();
+                                return oper.operar(operarArbol(nodo.getHojaIzquierda()),operarArbol(nodo.getHojaDerecha()));
+                        }else{	
+                                if(!(nodo.getHojaIzquierda().getDatos() instanceof Integer)){
+                                        Operacion oper = (Operacion) nodo.getDatos();
+                                        return oper.operar(operarArbol(nodo.getHojaIzquierda()),nodo.getHojaDerecha().getDatos() );
+                                }else{
+                                        Operacion oper= (Operacion) nodo.getDatos();
+                                        return oper.operar(operarArbol(nodo.getHojaDerecha()),nodo.getHojaIzquierda().getDatos() );	
 
-					return operarArbolTail(nod.getHojaDerecha(),(int)nod.getHojaIzquierda().getDatos());
-				}
-				return operarArbol(nod.getHojaDerecha());
-			//}	
-		}
-	
-		
-	}*/	
+                                }
+                        }
+                }
+
+        }	//para borrar
+        //borrar
+    }
+
+    /*public synchronized int operarArbolTail(Nodo nod, Nod nod){
+
+            if(nod.getDatos() instanceof Integer & nod.getDatos() instanceof Integer ){
+
+                    operacion = oper.operar(nod.getHojaIzquierda().getDatos(), nod.getHojaDerecha().getDatos());
+                    return operacion;
+
+            }else{
+                    if(!(nod.getHojaIzquierda().getDatos() instanceof Integer) & !(nod.getHojaDerecha().getDatos() instanceof Integer)){
+                            return operarArbol(nod.getHojaIzquierda());
+
+                    }else{
+                            if(nod.getHojaIzquierda().getDatos() instanceof Integer){
+                                    //
+
+                                    return operarArbolTail();
+                            }else{
+
+                                    return operarArbolTail(nod.getHojaDerecha(),(int)nod.getHojaIzquierda().getDatos());
+                            }
+                            return operarArbol(nod.getHojaDerecha());
+                    //}	
+            }
+
+
+    }*/	
 }	
