@@ -15,13 +15,23 @@ public class Nodo <T>{
     T datos;
     Nodo <T> nododerecho;
     Nodo<T> nodoizquierdo;
+	int id;
 
     //iniciar dato y hacer de este nodo un nodo hoja
     //public Nodo(T datosNodo)
-    public Nodo(){
-	//datos = datosNodo;
-	nodoizquierdo = nododerecho = null; //el nodo no tiene hijos
+    public Nodo(int id){
+		
+		nodoizquierdo = nododerecho = null; //el nodo no tiene hijos
+		this.id=id;
     }
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public T getDatos() {
 		return datos;

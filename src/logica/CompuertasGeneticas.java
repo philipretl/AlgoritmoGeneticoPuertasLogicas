@@ -25,7 +25,7 @@ public class CompuertasGeneticas {
 	public CompuertasGeneticas() {
 		operaciones= new ArrayList();
 		iniciarComp();
-		arbol = new ArbolGeneticoPuertas(operaciones);
+		//arbol = new ArbolGeneticoPuertas(operaciones);
 	}
 	
 	private void iniciarComp(){
@@ -34,22 +34,48 @@ public class CompuertasGeneticas {
 		Operacion or = new Or();
 		Operacion xor = new Xor();
 		
-		operaciones.add(and);
 		operaciones.add(not);
+		operaciones.add(and);
+		operaciones.add(and);
 		operaciones.add(or);
 		operaciones.add(xor);
+		operaciones.add(or);
+		operaciones.add(xor);
+		operaciones.add(xor);
+		operaciones.add(and);
+		
+		/*for (int i = 0; i < 1000; i++) {
+			operaciones.add(operaciones.get((int) (Math.random() *3))); 
+			
+		}*/
 	
 	}
 	
 	public void arrancar(){
-		arbol.addNodo(5);
-		System.out.println("Preorden");
-		arbol.recorridoPreorden();
-		System.out.println("Inorden");
-		arbol.recorridoInorden();
-		
 	
-	}
+		while(true){
+			arbol = new ArbolGeneticoPuertas(operaciones);
+			arbol.addNodo(4);
+			arbol.recorridoPreorden2();
+			System.out.println("cant:" + arbol.getCont());
+			if(arbol.getCont()<=15){
+				break;
+			}
+		}
+		
+		
+			Operacion oper = (Operacion) arbol.getRaiz().getDatos();
+			System.out.print("Raiz"+"/"+oper.getNombre() + " "); 
+		
+		
+		
+		System.out.println("Preorden");	
+		arbol.recorridoPreorden();
+		System.out.println("\nInorden");
+		arbol.recorridoInorden();
+		System.out.println("\ncontador: " + arbol.getCont());
+		
+		}
 	
 	
 	
