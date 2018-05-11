@@ -40,8 +40,27 @@ public class Not extends Operacion {
 	}
 
 	@Override
-	public void operar(int valor1, int valor2) {
-		
+	public int getResultado() {
+		return resultado;
 	}
+    @Override 
+	public void setResultado(int resultado) {
+		this.resultado = resultado;
+	}
+	
+	@Override
+	public int  operar(Object valor1, Object valor2) {
+		int result;
+		if ((Integer)valor1==0){
+			result = 1;
+		}else{
+			result = 0;
+		}
+		this.setResultado(result);
+		return result;
+	}
+
+	
+	
 	
 }

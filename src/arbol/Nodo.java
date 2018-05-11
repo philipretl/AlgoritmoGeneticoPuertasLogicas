@@ -13,7 +13,7 @@ public class Nodo <T>{
 //miembros de acceso
     
     T datos;
-    Nodo <T> nododerecho;
+    Nodo<T> nododerecho;
     Nodo<T> nodoizquierdo;
 	int id;
 
@@ -42,7 +42,7 @@ public class Nodo <T>{
 	}
 
     
-	Object getHojaIzquierda() {
+	public Nodo getHojaIzquierda() {
 		return nodoizquierdo;
 	}
 
@@ -50,7 +50,7 @@ public class Nodo <T>{
 		nodoizquierdo=nodo;
 	}
 
-	Object getHojaDerecha() {
+	public Nodo getHojaDerecha() {
 		return nododerecho;
 	}
 

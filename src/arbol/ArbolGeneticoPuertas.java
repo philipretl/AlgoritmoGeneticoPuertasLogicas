@@ -230,9 +230,9 @@ public class ArbolGeneticoPuertas {
         
 		if (nodo.getDatos() instanceof Operacion){
 			Operacion oper = (Operacion) nodo.getDatos();
-			System.out.print("id: "+ nodo.getId() + "/"+oper.getNombre() + " "); 
+			System.out.print("id: "+ nodo.getId() + "["+oper.getNombre() + "] "); 
 		}else{
-			System.out.print("id: "+ nodo.getId() + "/"+ nodo.getDatos()+" ");	
+			System.out.print("id: "+ nodo.getId() + "["+ nodo.getDatos()+"] ");	
 		}
 		
 		cont++;
@@ -257,15 +257,92 @@ public class ArbolGeneticoPuertas {
 		
 		if (nodo.getDatos() instanceof Operacion){
 			Operacion oper = (Operacion) nodo.getDatos();
-			System.out.print("id: "+ nodo.getId() + "/"+oper.getNombre() + " "); 
+			System.out.print("id: "+ nodo.getId() + "["+oper.getNombre() +"] "); 
 		}else{
-			System.out.print("id: "+ nodo.getId() + "/"+nodo.getDatos()+" ");	
+			System.out.print("id: "+ nodo.getId() + "["+nodo.getDatos()+"] ");	
 		}
 		
         
         ayudanteInorden(nodo.nododerecho);
     }
     
+	 //EMPEZAR RECORRIDO PORORDEN
+    public synchronized void recorridoPosorden()
+    {
+        ayudantePosorden(raiz);        
+    }
+     
+    //meotod recursivo para recorrido posorden
+    private void ayudantePosorden(Nodo nodo)
+    {
+        if( nodo == null )
+            return;
+         
+        ayudantePosorden(nodo.nodoizquierdo);
+        ayudantePosorden(nodo.nododerecho);
+       
+		if (nodo.getDatos() instanceof Operacion){
+			Operacion oper = (Operacion) nodo.getDatos();
+			System.out.print("id: "+ nodo.getId() + "["+oper.getNombre() +"] "); 
+		}else{
+			System.out.print("id: "+ nodo.getId() + "["+nodo.getDatos()+"] ");	
+		}
+    }
    
 	
-}
+	
+	
+	public synchronized int operarArbol(Nodo nodo){
+		
+		if(nodo.getHojaIzquierda()!= null || nodo.getHojaDerecha()!=null){
+			if (nodo.getHojaIzquierda().getDatos() instanceof Integer & nodo.getHojaDerecha().getDatos() instanceof Integer){
+				Operacion oper = (Operacion) nodo.getDatos();
+				return oper.operar(nodo.getHojaIzquierda().getDatos(),nodo.getHojaDerecha().getDatos() );
+			}else{
+
+				if (!(nodo.getHojaIzquierda().getDatos() instanceof Integer) & !(nodo.getHojaDerecha().getDatos() instanceof Integer)){
+					Operacion oper = (Operacion) nodo.getDatos();
+					return oper.operar(operarArbol(nodo.getHojaIzquierda()),operarArbol(nodo.getHojaDerecha()));
+				}else{	
+					if(!(nodo.getHojaIzquierda().getDatos() instanceof Integer)){
+						Operacion oper = (Operacion) nodo.getDatos();
+						return oper.operar(operarArbol(nodo.getHojaIzquierda()),nodo.getHojaDerecha().getDatos() );
+					}else{
+						Operacion oper= (Operacion) nodo.getDatos();
+						return oper.operar(operarArbol(nodo.getHojaDerecha()),nodo.getHojaIzquierda().getDatos() );	
+
+					}
+				}
+			}
+		
+		}	//para borrar
+		return 0;//borrar
+	}
+	
+	/*public synchronized int operarArbolTail(Nodo nod, Nod nod){
+		
+		if(nod.getDatos() instanceof Integer & nod.getDatos() instanceof Integer ){
+			
+			operacion = oper.operar(nod.getHojaIzquierda().getDatos(), nod.getHojaDerecha().getDatos());
+			return operacion;
+		
+		}else{
+			if(!(nod.getHojaIzquierda().getDatos() instanceof Integer) & !(nod.getHojaDerecha().getDatos() instanceof Integer)){
+				return operarArbol(nod.getHojaIzquierda());
+				
+			}else{
+				if(nod.getHojaIzquierda().getDatos() instanceof Integer){
+					//
+					
+					return operarArbolTail();
+				}else{
+
+					return operarArbolTail(nod.getHojaDerecha(),(int)nod.getHojaIzquierda().getDatos());
+				}
+				return operarArbol(nod.getHojaDerecha());
+			//}	
+		}
+	
+		
+	}*/	
+}	

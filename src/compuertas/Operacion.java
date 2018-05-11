@@ -9,7 +9,7 @@ package compuertas;
  *
  * @author philipretl
  */
-public abstract class Operacion {
+public abstract class Operacion<T>{
 	protected String nombre;
 	protected String operador;
 	protected int resultado;
@@ -26,5 +26,10 @@ public abstract class Operacion {
 
 	public abstract void setOperador(String operador);
 	
-	public abstract void operar(int valor1,int valor2);
+	public abstract int operar(T valor1,T valor2);
+	
+	public abstract int getResultado();
+	
+	public abstract void setResultado(int resultado);
+	
 }
