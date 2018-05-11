@@ -55,10 +55,10 @@ public class CompuertasGeneticas {
 	
 		while(true){
 			arbol = new ArbolGeneticoPuertas(operaciones);
-			arbol.addNodo(4);
+			arbol.addNodo(5);
 			arbol.recorridoPreorden2();
 			System.out.println("cant:" + arbol.getCont());
-			if(arbol.getCont()<=10& arbol.getCont()>7){
+			if(arbol.getCont()<=15& arbol.getCont()>7){
 				break;
 			}
 		}

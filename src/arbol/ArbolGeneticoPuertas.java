@@ -41,18 +41,27 @@ public class ArbolGeneticoPuertas {
 		int biRand=0;
 		boolean flag = nodo.getDatos() instanceof Integer;
 
-		if(altura==0 || flag){// este para si viene numeros
+		if(flag){//se cumple que sea un numero sale, no puede llevar mas cosas debajo
 			return;
+			
 		}else{
-
-			if(!flag & altura==0){//falta agregar el valor del nodo;
-				System.out.println("ultimo nivel");
-				biRand = (int) (Math.random()* 2); 
-			   //System.out.println("bi rand: " + biRand);
-			   nodo.setDatos(biRand); 
-			   return;
+			
+			System.out.println("altura :" +altura + "entero? : "+ flag);	
+			if(altura==0){//falta agregar el valor del nodo;//20.57
+				
+				if(!flag){
+					System.out.println("ultimo nivel");
+					biRand = (int) (Math.random()* 2); 
+					//System.out.println("bi rand: " + biRand);
+					nodo.setDatos(biRand);
+					
+					addNodo(nodo,altura);
+				}
+				 
+				//return;
 
 			}else{
+				
 				if ( this.raiz == null ) {
 					this.setRaiz(nodo);
 					addNodo(raiz,altura);
@@ -155,7 +164,7 @@ public class ArbolGeneticoPuertas {
 				}
 
 			}
-		}//cierra el else que va despues de preguntar si se llego a cero.	
+		}	
 
 	}
     public void addNodo(int altura) {
