@@ -112,33 +112,33 @@ public class ArbolGeneticoPuertas {
 
                         if(biRand==0){
 
-                                numRand = (int) (Math.random() * operaciones.size());  
-                                oper= operaciones.get(numRand);   
-                                nodo1.setDatos(oper);
+                            numRand = (int) (Math.random() * operaciones.size());  
+                            oper= operaciones.get(numRand);   
+                            nodo1.setDatos(oper);
 
                         }else{//ingresa un binario
 
-                                /*biRand = (int) (Math.random()* 2); 
-                                //System.out.println("bi rand: " + biRand);
-                                
-                                nodo1.setDatos(biRand);*/
-                                Binario bin1= new Binario();
-                                binarios.add(bin1);
-                                nodo1.setDatos(binarios.get(binarios.size()-1));
-                                
-                                
+                            /*biRand = (int) (Math.random()* 2); 
+                            //System.out.println("bi rand: " + biRand);
+
+                            nodo1.setDatos(biRand);*/
+                            Binario bin1= new Binario();
+                            binarios.add(bin1);
+                            nodo1.setDatos(binarios.get(binarios.size()-1));
+
+
 
                         }
                         biRand = (int) (Math.random()* 2); 
                             
                         if(biRand==0){// para el caso que sea not mira porque hoja se va a ir de manera aleatoria.
 
-                                nodo.setHojaIzquierda(nodo1);
-                                addNodo(nodo1,altura-1);
+                            nodo.setHojaIzquierda(nodo1);
+                            addNodo(nodo1,altura-1);
                         }else{
 
-                                nodo.setHojaDerecha(nodo1);
-                                addNodo(nodo1,altura-1);
+                            nodo.setHojaDerecha(nodo1);
+                            addNodo(nodo1,altura-1);
                         }
 
 
@@ -155,22 +155,22 @@ public class ArbolGeneticoPuertas {
 
                         if(biRand==0){
 
-                                numRand = (int) (Math.random() * operaciones.size());  
-                                oper= operaciones.get(numRand);   
-                                nodo2.setDatos(oper);
+                            numRand = (int) (Math.random() * operaciones.size());  
+                            oper= operaciones.get(numRand);   
+                            nodo2.setDatos(oper);
 
                         }else{
 
-                                /*biRand = (int) (Math.random()* 2); 
-                                //System.out.println("bi rand: " + biRand);
+                            /*biRand = (int) (Math.random()* 2); 
+                            //System.out.println("bi rand: " + biRand);
 
-                                nodo2.setDatos(biRand);*/
-                                Binario bin2= new Binario();
-                                binarios.add(bin2);
-                                nodo2.setDatos(binarios.get(binarios.size()-1));
-                                
-                                /*biRand = (int) (Math.random() * binarios.size());  
-                                nodo2.setDatos(binarios.get(biRand));*/
+                            nodo2.setDatos(biRand);*/
+                            Binario bin2= new Binario();
+                            binarios.add(bin2);
+                            nodo2.setDatos(binarios.get(binarios.size()-1));
+
+                            /*biRand = (int) (Math.random() * binarios.size());  
+                            nodo2.setDatos(binarios.get(biRand));*/
 
                         }
 
@@ -250,10 +250,10 @@ public class ArbolGeneticoPuertas {
         
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                for (int k = 0; k < 10; k++) {
+                for (int k = 0; k < binarios.size(); k++) {// recorre todos los binarios buscando la letra que le corresponde
                     if(binarios.get(k).getId()==j){
                         binarios.get(k).setValor(tabla[i][j]);
-                        break;
+                        //break;
                     }
                 }
                 
@@ -295,9 +295,9 @@ public class ArbolGeneticoPuertas {
         if(nodo == null)
             return;
         
-		cont++;
-		    //mostrar datos del nodo
-		ayudantePreorden2(nodo.nodoizquierdo);   //recorre subarbol izquierdo
+        cont++;
+            //mostrar datos del nodo
+        ayudantePreorden2(nodo.nodoizquierdo);   //recorre subarbol izquierdo
         ayudantePreorden2(nodo.nododerecho);     //recorre subarbol derecho
     }
 	 
@@ -308,17 +308,17 @@ public class ArbolGeneticoPuertas {
         if(nodo == null)
             return;
         
-		if (nodo.getDatos() instanceof Operacion){
-			Operacion oper = (Operacion) nodo.getDatos();
-			System.out.print("id: "+ nodo.getId() + "["+oper.getNombre() + "] "); 
-		}else{
-                        Binario bin = (Binario) nodo.getDatos();
-			System.out.print("var: "+ bin.getLetra()  + "["+ bin.getValor()+"] ");	
-		}
-		
-		cont++;
-		    //mostrar datos del nodo
-		ayudantePreorden(nodo.nodoizquierdo);   //recorre subarbol izquierdo
+        if (nodo.getDatos() instanceof Operacion){
+                Operacion oper = (Operacion) nodo.getDatos();
+                System.out.print("id: "+ nodo.getId() + "["+oper.getNombre() + "] "); 
+        }else{
+                Binario bin = (Binario) nodo.getDatos();
+                System.out.print("id: " + nodo.getId() + " ("+ bin.getLetra()+") "  + "["+ bin.getValor()+"] ");	
+        }
+
+        cont++;
+            //mostrar datos del nodo
+        ayudantePreorden(nodo.nodoizquierdo);   //recorre subarbol izquierdo
         ayudantePreorden(nodo.nododerecho);     //recorre subarbol derecho
     }
 	
@@ -334,22 +334,20 @@ public class ArbolGeneticoPuertas {
         if(nodo == null)
             return;
 		
-		ayudanteInorden(nodo.nodoizquierdo);
-		
-		if (nodo.getDatos() instanceof Operacion){
-                    Operacion oper = (Operacion) nodo.getDatos();
-                    System.out.print("id: "+ nodo.getId() + "["+oper.getNombre() +"] "); 
-                }else{
-                    Binario bin = (Binario) nodo.getDatos();
-                    System.out.print("var: "+ bin.getLetra()  + "["+ bin.getValor()+"] ");	
-		
-			//System.out.print("id: "+ nodo.getId() + "["+nodo.getDatos()+"] ");	
-		}
-		
-        
+        ayudanteInorden(nodo.nodoizquierdo);
+
+        if (nodo.getDatos() instanceof Operacion){
+            Operacion oper = (Operacion) nodo.getDatos();
+            System.out.print("id: "+ nodo.getId() + "["+oper.getNombre() +"] "); 
+        }else{
+            Binario bin = (Binario) nodo.getDatos();
+            System.out.print("id: " + nodo.getId() + " ("+ bin.getLetra()+") "  + "["+ bin.getValor()+"] ");	
+
+                //System.out.print("id: "+ nodo.getId() + "["+nodo.getDatos()+"] ");	
+        }
         ayudanteInorden(nodo.nododerecho);
     }
-	
+    /* esta recursion funcion debo cambiarla ahora a el tipo binario	
     public synchronized int operarArbol(Nodo nodo){
 
         if(nodo.getHojaIzquierda()== null || nodo.getHojaDerecha()==null){
@@ -371,6 +369,48 @@ public class ArbolGeneticoPuertas {
                         Operacion oper= (Operacion) nodo.getDatos();
                         return oper.operar(operarArbol(nodo.getHojaDerecha()),nodo.getHojaIzquierda().getDatos() );	
 
+                    }
+                }
+            }
+
+        }
+    }*/
+    
+    public synchronized int operarArbol(Nodo nodo){
+        
+        if(nodo.getHojaIzquierda()== null || nodo.getHojaDerecha()==null){
+            return 0;
+        }else{
+      
+            if (nodo.getHojaIzquierda().getDatos() instanceof Binario & nodo.getHojaDerecha().getDatos() instanceof Binario){
+                Operacion oper = (Operacion) nodo.getDatos();
+                Binario binIzq = (Binario) nodo.getHojaIzquierda().getDatos();
+                Binario binDer = (Binario) nodo.getHojaDerecha().getDatos();
+                return oper.operar(binIzq.getValor(),binDer.getValor());
+            }else{
+
+                if (!(nodo.getHojaIzquierda().getDatos() instanceof Binario) & !(nodo.getHojaDerecha().getDatos() instanceof Binario)){
+                    Operacion oper = (Operacion) nodo.getDatos();
+                    return oper.operar(operarArbol(nodo.getHojaIzquierda()),operarArbol(nodo.getHojaDerecha()));
+                }else{	
+                    if(!(nodo.getHojaIzquierda().getDatos() instanceof Binario)){
+                        Operacion oper = (Operacion) nodo.getDatos();
+                        Binario binDer= (Binario) nodo.getHojaDerecha().getDatos();
+                        return oper.operar(operarArbol(nodo.getHojaIzquierda()),binDer.getValor() );
+                    }else{
+                        Operacion oper= (Operacion) nodo.getDatos();
+                        Binario binIzq = (Binario) nodo.getHojaIzquierda().getDatos();
+                        // duda porque puestamente la linea comentada debia ser que pase los datos
+                        // a la izquierda y la derecha como no es hoja entonces deberia pasarle el nodo
+                        //pero asi estaba trabajando
+                        // se me ocurre que este error en la linea haya sido el causante del desbordamiento a causa de que al ser 
+                        // numero era logico que debia parar y no apuntar a a la rama que apuntaba a nulo
+                        //return oper.operar(operarArbol(nodo.getHojaDerecha()),binIzq.getValor());	
+                        
+                        /**
+                         * Nueva linea supuestamente corregida
+                         */
+                        return oper.operar(binIzq.getValor(),operarArbol(nodo.getHojaDerecha()));
                     }
                 }
             }
