@@ -256,7 +256,6 @@ public class ArbolGeneticoPuertas {
                         break;
                     }
                 }
-
                 
             }
             
@@ -313,7 +312,8 @@ public class ArbolGeneticoPuertas {
 			Operacion oper = (Operacion) nodo.getDatos();
 			System.out.print("id: "+ nodo.getId() + "["+oper.getNombre() + "] "); 
 		}else{
-			System.out.print("id: "+ nodo.getId() + "["+ nodo.getDatos()+"] ");	
+                        Binario bin = (Binario) nodo.getDatos();
+			System.out.print("var: "+ bin.getLetra()  + "["+ bin.getValor()+"] ");	
 		}
 		
 		cont++;
@@ -337,10 +337,13 @@ public class ArbolGeneticoPuertas {
 		ayudanteInorden(nodo.nodoizquierdo);
 		
 		if (nodo.getDatos() instanceof Operacion){
-			Operacion oper = (Operacion) nodo.getDatos();
-			System.out.print("id: "+ nodo.getId() + "["+oper.getNombre() +"] "); 
-		}else{
-			System.out.print("id: "+ nodo.getId() + "["+nodo.getDatos()+"] ");	
+                    Operacion oper = (Operacion) nodo.getDatos();
+                    System.out.print("id: "+ nodo.getId() + "["+oper.getNombre() +"] "); 
+                }else{
+                    Binario bin = (Binario) nodo.getDatos();
+                    System.out.print("var: "+ bin.getLetra()  + "["+ bin.getValor()+"] ");	
+		
+			//System.out.print("id: "+ nodo.getId() + "["+nodo.getDatos()+"] ");	
 		}
 		
         
