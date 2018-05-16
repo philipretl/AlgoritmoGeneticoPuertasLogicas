@@ -65,13 +65,15 @@ public class CompuertasGeneticas {
     }
 
     public void arrancar(){
+    int x=0;
+    while(x<50){    
         int cont=0;
         while(true){
                 arbol = new ArbolGeneticoPuertas(operaciones);
-                arbol.addNodo(9);
+                arbol.addNodo(5);
                 arbol.recorridoPreorden2();
 
-                if(arbol.getCont()<30& arbol.getCont()>20){
+                if(arbol.getCont()<15& arbol.getCont()>3){
                         break;
                 }
                 
@@ -92,10 +94,11 @@ public class CompuertasGeneticas {
                 } */     
         }
 
-
+        
         Operacion oper = (Operacion) arbol.getRaiz().getDatos();
         System.out.print("\nRaiz"+"/"+oper.getNombre() + " "); 
-
+        
+        arbol.llenarHojas(tabla, filas, columnas);// llena las hojas con los valores de la tabla
 
         System.out.println("cant:" + arbol.getCont());
         System.out.println("\nPreorden");	
@@ -110,15 +113,15 @@ public class CompuertasGeneticas {
 
         //System.out.println("\nResultado: " + arbol.operarArbol(nod));
         
+     
+        
+        
         System.out.println("\nNumero de terminales:" + arbol.getBinarios().size() );
-        
-        arbol.llenarHojas(tabla, filas, columnas);
-        
         System.out.println("\nResultado: " + arbol.operarArbol(nod));
         
-        
-
-    }
+        x++;
+    }    
+}
     
     public int[][] getTabla() {
         return tabla;
