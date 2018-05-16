@@ -21,12 +21,17 @@ import java.util.ArrayList;
 public class CompuertasGeneticas {
     private ArbolGeneticoPuertas arbol;
     private ArrayList<Operacion> operaciones;
-    private ArrayList<Integer> combinaciones;
+   //ss private ArrayList<Integer> combinaciones;
     private int tabla[][];
-    public CompuertasGeneticas() {
+    private int filas,columnas;
+    
+    public CompuertasGeneticas(int filas, int columnas) {
         operaciones= new ArrayList();
-        
+        this.filas=filas;
+        this.columnas=columnas;
         iniciarComp();
+        tabla = new int[filas][columnas];
+        
         //arbol = new ArbolGeneticoPuertas(operaciones);
     }
 
@@ -35,7 +40,8 @@ public class CompuertasGeneticas {
         Operacion not = new Not();
         Operacion or = new Or();
         Operacion xor = new Xor();
-
+        
+        
         operaciones.add(not);
         operaciones.add(and);
         operaciones.add(not);
@@ -46,7 +52,11 @@ public class CompuertasGeneticas {
         operaciones.add(xor);
         operaciones.add(xor);
         operaciones.add(and);
-
+        
+       
+        
+        
+        
         /*for (int i = 0; i < 1000; i++) {
                 operaciones.add(operaciones.get((int) (Math.random() *3))); 
 
@@ -102,13 +112,21 @@ public class CompuertasGeneticas {
         
         System.out.println("\nNumero de terminales:" + arbol.getBinarios().size() );
         
+        arbol.llenarHojas(tabla, filas, columnas);
+        
+        System.out.println("\nResultado: " + arbol.operarArbol(nod));
+        
         
 
     }
     
-    public void iniciarTabla(int filas,int columnas){
-        
-    
+    public int[][] getTabla() {
+        return tabla;
     }
 
+    public void setTabla(int[][] tabla) {
+        this.tabla = tabla;
+    }
+    
+    
 }
