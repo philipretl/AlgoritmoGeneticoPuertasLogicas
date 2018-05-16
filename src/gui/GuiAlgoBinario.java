@@ -28,7 +28,7 @@ public class GuiAlgoBinario extends javax.swing.JFrame {
 		initComponents();
                 n=0;
                 m=0;
-		ensayo();//borrar esta mondad
+		
 	}
 	
 	
@@ -272,6 +272,7 @@ public class GuiAlgoBinario extends javax.swing.JFrame {
             compGen= new CompuertasGeneticas(n,m);
             mostrarMatriz(matriz);
             compGen.setTabla(matriz);
+            compGen.arrancar();
             
         }
     }//GEN-LAST:event_btnExaminarActionPerformed
