@@ -11,16 +11,39 @@ package logica;
  */
 public class Binario {
 	int valor;
+        int id;
+        String letra;
+        
+    public Binario(int id) {
+        this.id=id;
+        letra="";
+        id=0;
+    }
+    public int getId() {
+        return id;
+    }
 
-	public Binario(int valor) {
-		this.valor = valor;
-	}
 
-	public int getValor() {
-		return valor;
-	}
+    public int getValor() {
+            return valor;
+    }
 
-	public void setValor(int valor) {
-		this.valor = valor;
-	}
+    public void setValor(int valor) {
+            this.valor = valor;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getLetra() {
+        return letra;
+    }
+
+    public void setLetra(String letra) {
+        this.letra = letra;
+    }
+    
+
+
 }
