@@ -112,6 +112,10 @@ public class CompuertasGeneticas {
         
         System.out.println("\nNumero de terminales:" + arbol.getBinarios().size() );
         
+        arbol.llenarHojas(tabla, filas, columnas);
+        
+        System.out.println("\nResultado: " + arbol.operarArbol(nod));
+        
         
 
     }
