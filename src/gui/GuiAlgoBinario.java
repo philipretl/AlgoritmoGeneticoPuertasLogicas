@@ -18,7 +18,7 @@ public class GuiAlgoBinario extends javax.swing.JFrame {
 	 */
 	public GuiAlgoBinario() {
 		initComponents();
-		compGen= new CompuertasGeneticas();
+		compGen= new CompuertasGeneticas(10,6);
 		ensayo();//borrar esta mondad
 	}
 	

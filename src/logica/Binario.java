@@ -14,10 +14,10 @@ public class Binario {
         int id;
         String letra;
         
-    public Binario(int id) {
-        this.id=id;
+    public Binario() {
         letra="";
         id=0;
+        valor=0;
     }
     public int getId() {
         return id;

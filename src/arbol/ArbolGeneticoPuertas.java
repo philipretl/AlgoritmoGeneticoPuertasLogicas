@@ -17,10 +17,12 @@ import logica.Binario;
 public class ArbolGeneticoPuertas {
 
     private Nodo raiz;
-    ArrayList<Operacion> operaciones;
-    ArrayList<Binario> binarios;
-    int cont;
-    int id=0;
+    private ArrayList<Operacion> operaciones;
+    private ArrayList<Binario> binarios;
+    private int cont;
+    private int id=0;
+    private double error;
+    private ArrayList<String> abecedario;
 
 	
      
@@ -30,7 +32,24 @@ public class ArbolGeneticoPuertas {
         binarios = new ArrayList();
         raiz = null;
         cont=0;
+        abecedario = new ArrayList();
+        iniciarComponentes();
     }
+    
+    private void iniciarComponentes(){
+        abecedario.add("a");
+        abecedario.add("b");
+        abecedario.add("c");
+        abecedario.add("d");
+        abecedario.add("e");
+        abecedario.add("f");
+        abecedario.add("g");
+        abecedario.add("h");
+        abecedario.add("i");
+        abecedario.add("j");
+    
+    }
+    
     
     public int getCont() {
             return cont;
@@ -67,7 +86,7 @@ public class ArbolGeneticoPuertas {
                         //biRand = (int) (Math.random()* 2); 
                         //biRand = (int) (Math.random() * binarios.size());  
                         
-                        Binario bin= new Binario(binarios.size());
+                        Binario bin= new Binario();
                         binarios.add(bin);
                         nodo.setDatos(binarios.get(binarios.size()-1));
 
@@ -103,7 +122,7 @@ public class ArbolGeneticoPuertas {
                                 //System.out.println("bi rand: " + biRand);
                                 
                                 nodo1.setDatos(biRand);*/
-                                Binario bin1= new Binario(binarios.size());
+                                Binario bin1= new Binario();
                                 binarios.add(bin1);
                                 nodo1.setDatos(binarios.get(binarios.size()-1));
                                 
@@ -146,7 +165,7 @@ public class ArbolGeneticoPuertas {
                                 //System.out.println("bi rand: " + biRand);
 
                                 nodo2.setDatos(biRand);*/
-                                Binario bin2= new Binario(binarios.size());
+                                Binario bin2= new Binario();
                                 binarios.add(bin2);
                                 nodo2.setDatos(binarios.get(binarios.size()-1));
                                 
@@ -179,7 +198,7 @@ public class ArbolGeneticoPuertas {
                             nodo3.setDatos(biRand);
                             //System.out.println("bi rand: " + biRand);nodo3.setDatos(biRand);
                             */
-                            Binario bin3= new Binario(binarios.size());
+                            Binario bin3= new Binario();
                             binarios.add(bin3);
                             nodo3.setDatos(binarios.get(binarios.size()-1));
                             
@@ -212,6 +231,36 @@ public class ArbolGeneticoPuertas {
 
         this.addNodo(nodo,(altura-1));
 
+    }
+    
+    public void llenarHojas(int tabla[][],int filas,int columnas){
+        int rand;
+        /**
+         * Genera un aleatorio para asignar una letra aleatoria
+         * a las hojas o nodos terminales
+         */
+        for (int p = 0; p < binarios.size(); p++) {
+            
+            rand= (int) (Math.random() * (columnas-1));// va la columba porque es la cantidad de letras que voy a usar
+            binarios.get(p).setLetra(abecedario.get(rand));
+            binarios.get(p).setId(rand);
+        }
+        
+        
+        
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                for (int k = 0; k < 10; k++) {
+                    if(binarios.get(k).getId()==j){
+                        binarios.get(k).setValor(tabla[i][j]);
+                        break;
+                    }
+                }
+
+                
+            }
+            
+        }
     }
 
     private void setRaiz(Nodo nodo) {
