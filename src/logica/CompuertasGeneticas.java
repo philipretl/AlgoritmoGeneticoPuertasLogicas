@@ -19,7 +19,6 @@ import java.util.ArrayList;
  * @author philipretl
  */
 public class CompuertasGeneticas {
-    private ArbolGeneticoPuertas arbol;
     // meter un array de arboles 
     private ArrayList<Operacion> operaciones;
    //ss private ArrayList<Integer> combinaciones;
@@ -28,7 +27,7 @@ public class CompuertasGeneticas {
     private int filas,columnas;
     private int individuos;
     
-    public CompuertasGeneticas(int filas, int columnas,int inviduos) {
+    public CompuertasGeneticas(int filas, int columnas,int individuos) {
         operaciones= new ArrayList();
         this.filas=filas;
         this.columnas=columnas;
@@ -71,90 +70,104 @@ public class CompuertasGeneticas {
     
     public void manejadorGenetico(){
         int cont=0;
-        while(cont!=10){
         
-            arbol = new ArbolGeneticoPuertas(operaciones);
+        while(cont<individuos){
+            
+            ArbolGeneticoPuertas arbol = new ArbolGeneticoPuertas(operaciones);
             arbol.addNodo(5);
             Operacion oper = (Operacion) arbol.getRaiz().getDatos();
             System.out.print("\nRaiz"+"/"+oper.getNombre() + " "); 
         
-            arbol.llenarHojas(tabla, filas, columnas);// llena las hojas con los valores de la tabla
-
-            System.out.println("\ncant nodos:" + arbol.getCont());
+            arbol.llenarHojas(tabla, filas, columnas);// llena las hojas con los valores de la tabla 
+            /**
+             * el metodo llenar hojas maneja tambien el calculo de los errores parciales y 
+             * el error total + la penalizacion 
+             */
         
             System.out.println("\nPreorden");	
             arbol.recorridoPreorden();
             
             System.out.println("\nInorden");
             arbol.recorridoInorden();
-        
+            
+            System.out.println("\nNumero de terminales:" + arbol.getBinarios().size() );
+             System.out.println(" cant nodos:" + arbol.getCont());
+            System.out.println("\nResultado: " + arbol.getErrorTotal());
+            
+            arboles.add(arbol);
+                
             cont++;
+           // System.out.println("cont:" + cont);
         }
     
+       // System.out.println("tamaño del array de arbol: " +arboles.size());
         
-    
     } 
     
     
     public void arrancar(){
-    int x=0;
-    while(x<50){    
-        int cont=0;
-        while(true){
-                arbol = new ArbolGeneticoPuertas(operaciones);
-                arbol.addNodo(5);
-                arbol.recorridoPreorden2();
+    
+        manejadorGenetico();
+        
+        /* int x=0;
+        while(x<50){    
+            int cont=0;
+            while(true){
+                    arbol = new ArbolGeneticoPuertas(operaciones);
+                    arbol.addNodo(5);
+                    arbol.recorridoPreorden2();
 
-                if(arbol.getCont()<15& arbol.getCont()>3){
+                    if(arbol.getCont()<15& arbol.getCont()>3){
+                            break;
+                    }
+
+                    /*Operacion oper = (Operacion) arbol.getRaiz().getDatos();
+                    System.out.print("\nRaiz"+"/"+oper.getNombre() + " "); 
+
+
+                    System.out.println("cant:" + arbol.getCont());
+                    System.out.println("\nPreorden");	
+                    arbol.recorridoPreorden();
+                    System.out.println("\nInorden");
+                    arbol.recorridoInorden();
+
+                    cont++;
+                    if (cont == 500000) {
+
                         break;
-                }
-                
-                /*Operacion oper = (Operacion) arbol.getRaiz().getDatos();
-                System.out.print("\nRaiz"+"/"+oper.getNombre() + " "); 
+                    }      
+            }
 
 
-                System.out.println("cant:" + arbol.getCont());
-                System.out.println("\nPreorden");	
-                arbol.recorridoPreorden();
-                System.out.println("\nInorden");
-                arbol.recorridoInorden();
-                
-                cont++;
-                if (cont == 500000) {
+            Operacion oper = (Operacion) arbol.getRaiz().getDatos();
+            System.out.print("\nRaiz"+"/"+oper.getNombre() + " "); 
 
-                    break;
-                } */     
+            arbol.llenarHojas(tabla, filas, columnas);// llena las hojas con los valores de la tabla
+
+            System.out.println("\ncant nodos:" + arbol.getCont());
+
+            System.out.println("\nPreorden");	
+            arbol.recorridoPreorden();
+            System.out.println("\nInorden");
+            arbol.recorridoInorden();
+            //System.out.println("\nPosorden");
+            //arbol.recorridoPosorden();
+            //System.out.println("\ncontador: " + arbol.getCont());
+
+            Nodo nod = arbol.getRaiz();
+
+            //System.out.println("\nResultado: " + arbol.operarArbol(nod));
+
+
+
+
+            System.out.println("\nNumero de terminales:" + arbol.getBinarios().size() );
+            System.out.println("\nResultado: " + arbol.operarArbol(nod));
+
+            x++;
         }
-
-        
-        Operacion oper = (Operacion) arbol.getRaiz().getDatos();
-        System.out.print("\nRaiz"+"/"+oper.getNombre() + " "); 
-        
-        arbol.llenarHojas(tabla, filas, columnas);// llena las hojas con los valores de la tabla
-
-        System.out.println("\ncant nodos:" + arbol.getCont());
-        
-        System.out.println("\nPreorden");	
-        arbol.recorridoPreorden();
-        System.out.println("\nInorden");
-        arbol.recorridoInorden();
-        //System.out.println("\nPosorden");
-        //arbol.recorridoPosorden();
-        //System.out.println("\ncontador: " + arbol.getCont());
-
-        Nodo nod = arbol.getRaiz();
-
-        //System.out.println("\nResultado: " + arbol.operarArbol(nod));
-        
-     
-        
-        
-        System.out.println("\nNumero de terminales:" + arbol.getBinarios().size() );
-        System.out.println("\nResultado: " + arbol.operarArbol(nod));
-        
-        x++;
-    }    
-}
+    */
+    }
     
     public int[][] getTabla() {
         return tabla;

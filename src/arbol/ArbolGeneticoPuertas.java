@@ -2,6 +2,7 @@ package arbol;
 
 import java.util.ArrayList;
 import compuertas.*;
+import static java.lang.Math.pow;
 import logica.Binario;
 
 /*
@@ -21,7 +22,8 @@ public class ArbolGeneticoPuertas {
     private ArrayList<Binario> binarios;
     private int cont;
     private int id=0;
-    private double error;
+    private double errorTotal;
+    private ArrayList<Double> errores;
     private ArrayList<String> abecedario;
 
 	
@@ -32,9 +34,38 @@ public class ArbolGeneticoPuertas {
         binarios = new ArrayList();
         raiz = null;
         cont=0;
+        errores = new ArrayList();
         abecedario = new ArrayList();
         iniciarComponentes();
+        errorTotal=0;
     }
+
+    public double getErrorTotal() {
+        return errorTotal;
+    }
+    
+    
+    
+     private void setRaiz(Nodo nodo) {
+            raiz=nodo;
+    }
+
+    public Nodo getRaiz() {
+            return raiz;
+    }
+    
+    public int getCont() {
+            return cont;
+    }
+
+    public ArrayList<Binario> getBinarios() {
+        return binarios;
+    }
+
+    public void setBinarios(ArrayList<Binario> binarios) {
+        this.binarios = binarios;
+    }
+    
     
     private void iniciarComponentes(){
         abecedario.add("a");
@@ -49,20 +80,6 @@ public class ArbolGeneticoPuertas {
         abecedario.add("j");
     
     }
-    
-    
-    public int getCont() {
-            return cont;
-    }
-
-    public ArrayList<Binario> getBinarios() {
-        return binarios;
-    }
-
-    public void setBinarios(ArrayList<Binario> binarios) {
-        this.binarios = binarios;
-    }
-    
     
 
     private void addNodo( Nodo nodo, int altura) {
@@ -248,29 +265,68 @@ public class ArbolGeneticoPuertas {
         
         
         
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
+        for (int i = 0; i < filas; i++) { //este for recorre las filas
+            //System.out.println("\npatron ");
+            for (int j = 0; j < columnas-1; j++) {// recorre las columnas 
                 for (int k = 0; k < binarios.size(); k++) {// recorre todos los binarios buscando la letra que le corresponde
                     if(binarios.get(k).getId()==j){
                         binarios.get(k).setValor(tabla[i][j]);
-                        //break;
+                        //break;// no va por que puede encontrarlo varias veces
                     }
                 }
                 
             }
             
+            calcularErrorParcial(tabla[i][columnas-1]);
+            
         }
+        
+        /**
+         * al terminar de calcular los parciales calcula el total
+         */
+        
+        calcularErrorTotal((columnas-1));
+    }
+    
+    private void calcularErrorTotal(int valores){
+        double error=0;
+        int cont=0;
+        int numErr=0;
+        for (int i = 0; i < errores.size(); i++) {
+            error = error + errores.get(i);
+        }
+        
+        errorTotal= error / errores.size();
+        
+        for (int i = 0; i < valores; i++) {
+            
+            for (int j = 0; j < binarios.size(); j++) {
+                 if(binarios.get(j).getId()==i){
+                    cont++;
+                    break;
+                 }
+            }
+        }
+        
+        numErr= valores - cont;
+        
+        errorTotal = errorTotal + (numErr * 0.1);
+        
+        
+    }
+    
+    private void calcularErrorParcial(int esperado){
+        int resultado;
+        double error;
+        resultado=operarArbol(this.raiz);
+        //System.out.println("resultado: " + resultado + "esperado: " + esperado);
+        error=pow((esperado - resultado),2);
+        
+        errores.add(error);
+    
     }
 
-    private void setRaiz(Nodo nodo) {
-            raiz=nodo;
-    }
-
-    public Nodo getRaiz() {
-            return raiz;
-    }
-	
-	 
+   	 
     // EMPIEZA EL RECORRIDO EN PREORDEN
     public synchronized void recorridoPreorden()
     {	cont=0;
@@ -290,8 +346,7 @@ public class ArbolGeneticoPuertas {
 	  * borrar esta otra mondad
 	  * 
 	  */
-	 private void ayudantePreorden2(Nodo nodo)
-    {
+    private void ayudantePreorden2(Nodo nodo){
         if(nodo == null)
             return;
         
@@ -347,34 +402,7 @@ public class ArbolGeneticoPuertas {
         }
         ayudanteInorden(nodo.nododerecho);
     }
-    /* esta recursion funcion debo cambiarla ahora a el tipo binario	
-    public synchronized int operarArbol(Nodo nodo){
-
-        if(nodo.getHojaIzquierda()== null || nodo.getHojaDerecha()==null){
-            return 0;
-        }else{
-            if (nodo.getHojaIzquierda().getDatos() instanceof Integer & nodo.getHojaDerecha().getDatos() instanceof Integer){
-                Operacion oper = (Operacion) nodo.getDatos();
-                return oper.operar(nodo.getHojaIzquierda().getDatos(),nodo.getHojaDerecha().getDatos() );
-            }else{
-
-                if (!(nodo.getHojaIzquierda().getDatos() instanceof Integer) & !(nodo.getHojaDerecha().getDatos() instanceof Integer)){
-                    Operacion oper = (Operacion) nodo.getDatos();
-                    return oper.operar(operarArbol(nodo.getHojaIzquierda()),operarArbol(nodo.getHojaDerecha()));
-                }else{	
-                    if(!(nodo.getHojaIzquierda().getDatos() instanceof Integer)){
-                        Operacion oper = (Operacion) nodo.getDatos();
-                        return oper.operar(operarArbol(nodo.getHojaIzquierda()),nodo.getHojaDerecha().getDatos() );
-                    }else{
-                        Operacion oper= (Operacion) nodo.getDatos();
-                        return oper.operar(operarArbol(nodo.getHojaDerecha()),nodo.getHojaIzquierda().getDatos() );	
-
-                    }
-                }
-            }
-
-        }
-    }*/
+   
     
     public synchronized int operarArbol(Nodo nodo){
         
@@ -417,6 +445,35 @@ public class ArbolGeneticoPuertas {
 
         }
     }
+    
+     /* esta recursion funcion debo cambiarla ahora a el tipo binario	
+    public synchronized int operarArbol(Nodo nodo){
+
+        if(nodo.getHojaIzquierda()== null || nodo.getHojaDerecha()==null){
+            return 0;
+        }else{
+            if (nodo.getHojaIzquierda().getDatos() instanceof Integer & nodo.getHojaDerecha().getDatos() instanceof Integer){
+                Operacion oper = (Operacion) nodo.getDatos();
+                return oper.operar(nodo.getHojaIzquierda().getDatos(),nodo.getHojaDerecha().getDatos() );
+            }else{
+
+                if (!(nodo.getHojaIzquierda().getDatos() instanceof Integer) & !(nodo.getHojaDerecha().getDatos() instanceof Integer)){
+                    Operacion oper = (Operacion) nodo.getDatos();
+                    return oper.operar(operarArbol(nodo.getHojaIzquierda()),operarArbol(nodo.getHojaDerecha()));
+                }else{	
+                    if(!(nodo.getHojaIzquierda().getDatos() instanceof Integer)){
+                        Operacion oper = (Operacion) nodo.getDatos();
+                        return oper.operar(operarArbol(nodo.getHojaIzquierda()),nodo.getHojaDerecha().getDatos() );
+                    }else{
+                        Operacion oper= (Operacion) nodo.getDatos();
+                        return oper.operar(operarArbol(nodo.getHojaDerecha()),nodo.getHojaIzquierda().getDatos() );	
+
+                    }
+                }
+            }
+
+        }
+    }*/
 
    
 }	

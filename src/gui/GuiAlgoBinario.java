@@ -337,6 +337,7 @@ public class GuiAlgoBinario extends javax.swing.JFrame {
                 txtRuta.setText(fichero.getAbsolutePath());
             
                 int[][] matriz = cargarMatriz(fichero);
+                System.out.println("gui - numero de individuos"+ txtNumIndividuos.getText());
                 compGen= new CompuertasGeneticas(n,m,Integer.parseInt(txtNumIndividuos.getText()));
                 mostrarMatriz(matriz);
                 compGen.setTabla(matriz);    
