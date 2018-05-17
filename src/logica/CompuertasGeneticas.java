@@ -20,17 +20,22 @@ import java.util.ArrayList;
  */
 public class CompuertasGeneticas {
     private ArbolGeneticoPuertas arbol;
+    // meter un array de arboles 
     private ArrayList<Operacion> operaciones;
    //ss private ArrayList<Integer> combinaciones;
+    private ArrayList<ArbolGeneticoPuertas> arboles;
     private int tabla[][];
     private int filas,columnas;
+    private int individuos;
     
-    public CompuertasGeneticas(int filas, int columnas) {
+    public CompuertasGeneticas(int filas, int columnas,int inviduos) {
         operaciones= new ArrayList();
         this.filas=filas;
         this.columnas=columnas;
         iniciarComp();
         tabla = new int[filas][columnas];
+        arboles= new ArrayList();
+        this.individuos=individuos;
         
         //arbol = new ArbolGeneticoPuertas(operaciones);
     }
@@ -63,7 +68,34 @@ public class CompuertasGeneticas {
         }*/
 
     }
+    
+    public void manejadorGenetico(){
+        int cont=0;
+        while(cont!=10){
+        
+            arbol = new ArbolGeneticoPuertas(operaciones);
+            arbol.addNodo(5);
+            Operacion oper = (Operacion) arbol.getRaiz().getDatos();
+            System.out.print("\nRaiz"+"/"+oper.getNombre() + " "); 
+        
+            arbol.llenarHojas(tabla, filas, columnas);// llena las hojas con los valores de la tabla
 
+            System.out.println("\ncant nodos:" + arbol.getCont());
+        
+            System.out.println("\nPreorden");	
+            arbol.recorridoPreorden();
+            
+            System.out.println("\nInorden");
+            arbol.recorridoInorden();
+        
+            cont++;
+        }
+    
+        
+    
+    } 
+    
+    
     public void arrancar(){
     int x=0;
     while(x<50){    
@@ -100,7 +132,8 @@ public class CompuertasGeneticas {
         
         arbol.llenarHojas(tabla, filas, columnas);// llena las hojas con los valores de la tabla
 
-        System.out.println("cant:" + arbol.getCont());
+        System.out.println("\ncant nodos:" + arbol.getCont());
+        
         System.out.println("\nPreorden");	
         arbol.recorridoPreorden();
         System.out.println("\nInorden");
