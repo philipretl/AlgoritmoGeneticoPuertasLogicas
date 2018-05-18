@@ -204,11 +204,7 @@ public class CompuertasGeneticas implements Serializable{
             
             Collections.sort(todos);  
      
-<<<<<<< HEAD
-           // System.out.println("tamaño todos" + todos.size());
-=======
-            //System.out.println("tamaño todos" + todos.size());
->>>>>>> 690a93a32dc6d9decbc35134fa2741c215292aba
+
              
 
             for (int i = 0; i < arboles.size(); i++) {
