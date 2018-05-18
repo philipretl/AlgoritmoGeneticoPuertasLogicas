@@ -57,6 +57,11 @@ public class CompuertasGeneticas implements Serializable{
         //arbol = new ArbolGeneticoPuertas(operaciones);
     }
 
+    public List<ArbolGeneticoPuertas> getArboles() {
+        return arboles;
+    }
+
+    
     private void iniciarComp(){
         Operacion and = new And();
         Operacion not = new Not();

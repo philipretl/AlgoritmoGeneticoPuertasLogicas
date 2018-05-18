@@ -233,6 +233,11 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
         btnPintarArbol.setText("Pintar Arbol");
 
         btnExpresion.setText("Mostrar Expresion");
+        btnExpresion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExpresionActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Opciones");
 
@@ -361,6 +366,12 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
             btnExpresion.setEnabled(true);
         }
     }//GEN-LAST:event_btnIniciarActionPerformed
+
+    private void btnExpresionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExpresionActionPerformed
+            // TODO add your handling code here:
+            String recorridoPreorden = compGen.getArboles().get(0).recorridoPreorden();
+        txtAExpresion.setText(recorridoPreorden);
+    }//GEN-LAST:event_btnExpresionActionPerformed
 
 	/**
 	 * @param args the command line arguments
