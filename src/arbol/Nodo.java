@@ -23,7 +23,7 @@ public class Nodo <T>{
 		
 		//nodoizquierdo = nododerecho = null; //el nodo no tiene hijos
 		
-                this.id=id;
+        this.id=id;
     }
 
 	public int getId() {

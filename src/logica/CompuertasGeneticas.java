@@ -23,9 +23,12 @@ public class CompuertasGeneticas {
     private ArrayList<Operacion> operaciones;
    //ss private ArrayList<Integer> combinaciones;
     private ArrayList<ArbolGeneticoPuertas> arboles;
+    private ArrayList<ArbolGeneticoPuertas> mutados;
     private int tabla[][];
     private int filas,columnas;
     private int individuos;
+    private int generacion;
+    
     
     public CompuertasGeneticas(int filas, int columnas,int individuos) {
         operaciones= new ArrayList();
@@ -35,7 +38,8 @@ public class CompuertasGeneticas {
         tabla = new int[filas][columnas];
         arboles= new ArrayList();
         this.individuos=individuos;
-        
+        generacion=0;
+        mutados=new ArrayList();
         //arbol = new ArbolGeneticoPuertas(operaciones);
     }
 
@@ -68,46 +72,93 @@ public class CompuertasGeneticas {
 
     }
     
+    /**
+     * Se debe pedir la altura del arbol por la gui o dejarla generica
+     */
+    
     public void manejadorGenetico(){
         int cont=0;
         
         while(cont<individuos){
-            
-            ArbolGeneticoPuertas arbol = new ArbolGeneticoPuertas(operaciones);
-            arbol.addNodo(5);
-            Operacion oper = (Operacion) arbol.getRaiz().getDatos();
-            System.out.print("\nRaiz"+"/"+oper.getNombre() + " "); 
-        
-            arbol.llenarHojas(tabla, filas, columnas);// llena las hojas con los valores de la tabla 
             /**
-             * el metodo llenar hojas maneja tambien el calculo de los errores parciales y 
-             * el error total + la penalizacion 
+             * aqui debe ir la condicion de parada para que deje de generar arboles 
+             * cuando el error sea poco 
              */
-        
-            System.out.println("\nPreorden");	
-            arbol.recorridoPreorden();
             
-            System.out.println("\nInorden");
-            arbol.recorridoInorden();
-            
-            System.out.println("\nNumero de terminales:" + arbol.getBinarios().size() );
-             System.out.println(" cant nodos:" + arbol.getCont());
-            System.out.println("\nResultado: " + arbol.getErrorTotal());
+            ArbolGeneticoPuertas arbol = new ArbolGeneticoPuertas(operaciones,generacion);
+            arbol.addNodo(5);
             
             arboles.add(arbol);
                 
             cont++;
+            // luego de crear el arbol crea su mutado.
+            
            // System.out.println("cont:" + cont);
         }
+        generacion=generacion+1;
+        mutar();
     
        // System.out.println("tamaño del array de arbol: " +arboles.size());
         
     } 
+  
     
+    private void mutar(){
+        
+        int indiceMut=0;
+        int random=0;
+        
+        for (int i = 0; i < arboles.size(); i++) {
+            ArbolGeneticoPuertas arbMut = new ArbolGeneticoPuertas(operaciones, generacion);
+            Nodo nuevoNodo = new Nodo(i);
+            nuevoNodo.setDatos(arboles.get(i).getRaiz().getDatos());
+            arbMut.setRaiz(nuevoNodo);
+            mutados.add(arbMut);
+        }
+        
+        indiceMut= (int) (individuos * 0.15);
+        
+        for (int i = 0; i < indiceMut; i++) {
+            random= (int) (Math.random() * mutados.size());
+            mutados.get(i).mutar(5);
+        }
+        
+    }
+    
+    private void imprimirInfo(ArbolGeneticoPuertas arbol){
+        Operacion oper = (Operacion) arbol.getRaiz().getDatos();
+        System.out.print("\nRaiz"+"/"+oper.getNombre() + " "); 
+
+        arbol.llenarHojas(tabla, filas, columnas);// llena las hojas con los valores de la tabla 
+        /**
+         * el metodo llenar hojas maneja tambien el calculo de los errores parciales y 
+         * el error total + la penalizacion 
+         */
+
+        System.out.println("\nPreorden");	
+        arbol.recorridoPreorden();
+
+        System.out.println("\nInorden");
+        arbol.recorridoInorden();
+
+        System.out.println("\nNumero de terminales:" + arbol.getBinarios().size() );
+        System.out.println(" cant nodos:" + arbol.getCont());
+        System.out.println("\nResultado: " + arbol.getErrorTotal());
+    
+    }
     
     public void arrancar(){
     
         manejadorGenetico();
+        
+        for (int i = 0; i <arboles.size(); i++) {
+            System.out.println("original");
+            imprimirInfo(arboles.get(i));
+            System.out.println("mutados");
+            imprimirInfo(mutados.get(i));// la info del mutado
+        }
+        
+
         
         /* int x=0;
         while(x<50){    
