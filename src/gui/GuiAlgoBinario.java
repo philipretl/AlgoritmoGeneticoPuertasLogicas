@@ -345,9 +345,9 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
             
                  matriz = cargarMatriz(fichero);
                 
-                compGen= new CompuertasGeneticas(n,m,Integer.parseInt(txtNumIndividuos.getText()));
+                //compGen= new CompuertasGeneticas(n,m,Integer.parseInt(txtNumIndividuos.getText()));
                 mostrarMatriz(matriz);
-                compGen.setTabla(matriz);    
+                //compGen.setTabla(matriz);    
             }
         }
     }//GEN-LAST:event_btnExaminarActionPerformed
@@ -362,7 +362,7 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
             //individuos
             
             compGen= new CompuertasGeneticas(n,m,Integer.parseInt(txtNumIndividuos.getText()));
-            mostrarMatriz(matriz);
+            //mostrarMatriz(matriz);
             compGen.setTabla(matriz);    
             
             compGen.arrancar();
