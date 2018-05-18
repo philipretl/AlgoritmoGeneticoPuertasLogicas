@@ -53,7 +53,7 @@ public class CompuertasGeneticas implements Serializable{
         generacion=0;
         //mutados=new ArrayList();
         mutados=new ArrayList<ArbolGeneticoPuertas>();
-        nivel=5;
+        nivel=10;
         //arbol = new ArbolGeneticoPuertas(operaciones);
     }
 
@@ -176,7 +176,7 @@ public class CompuertasGeneticas implements Serializable{
         manejadorGenetico();
         List<ArbolGeneticoPuertas> todos = Serialization.copy(arboles);
         
-        while (cont < 200){
+        while (cont < 500){
             
             mutar();
             cruzar();
@@ -199,7 +199,7 @@ public class CompuertasGeneticas implements Serializable{
             
             Collections.sort(todos);  
      
-            System.out.println("tamaño todos" + todos.size());
+           // System.out.println("tamaño todos" + todos.size());
              
 
             for (int i = 0; i < arboles.size(); i++) {

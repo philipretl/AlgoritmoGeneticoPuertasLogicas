@@ -307,7 +307,7 @@ public class ArbolGeneticoPuertas implements Serializable, Comparable<ArbolGenet
     public void mutar(int altura){
         int lvlMut=0;
         
-        lvlMut=(int) (Math.random()*altura);
+        lvlMut=(int) (Math.random()*altura-1);
         
         /*if(lvlMut==altura){
            lvlMut=0;
@@ -758,14 +758,9 @@ public class ArbolGeneticoPuertas implements Serializable, Comparable<ArbolGenet
 	 
     //meoto recursivo para recorrido en preorden
     
-<<<<<<< HEAD
-    private String ayudantePreorden(Nodo nodo,String recorrido)
-=======
+
+    private String ayudantePreorden(Nodo nodo,String recorrido){
     //manzano me la pela
-    
-    private void ayudantePreorden(Nodo nodo)
->>>>>>> d239cabece5640a32b390ca28568864ba2c6cd9f
-    {
         if(nodo == null)
             return recorrido;
         
