@@ -81,13 +81,7 @@ public class CompuertasGeneticas implements Serializable{
         operaciones.add(and);
         
        
-        
-        
-        
-        /*for (int i = 0; i < 1000; i++) {
-                operaciones.add(operaciones.get((int) (Math.random() *3))); 
 
-        }*/
 
     }
     
@@ -112,15 +106,13 @@ public class CompuertasGeneticas implements Serializable{
             arboles.add(arbol);
                 
             cont++;
-            // luego de crear el arbol crea su mutado.
-            
-           // System.out.println("cont:" + cont);
+           
         }
         
         generacion=generacion+1;
         
     
-       // System.out.println("tamaño del array de arbol: " +arboles.size());
+
         
     } 
   
