@@ -2,6 +2,7 @@ package arbol;
 
 import java.util.ArrayList;
 import compuertas.*;
+import java.io.Serializable;
 import static java.lang.Math.pow;
 import logica.Binario;
 
@@ -15,7 +16,7 @@ import logica.Binario;
  *
  * @author philipretl
  */
-public class ArbolGeneticoPuertas {
+public class ArbolGeneticoPuertas implements Serializable{
 
     private Nodo raiz;
     private ArrayList<Operacion> operaciones;
@@ -50,6 +51,10 @@ public class ArbolGeneticoPuertas {
 
     public void setGeneracion(int generacion) {
         this.generacion = generacion;
+    }
+
+    public boolean isMutado() {
+        return mutado;
     }
     
     
@@ -108,12 +113,19 @@ public class ArbolGeneticoPuertas {
     
     public synchronized void mutar(int altura){
         int lvlMut=0;
-        lvlMut=(int) (Math.random()*4)+1;// Ojo le puse +1 para ver que no mute la raiz
-        this.mutar(raiz,altura-1,lvlMut);
+        
+        lvlMut=(int) (Math.random()*altura);// Ojo le puse +1 para ver que no mute la raiz
+        
+        if(lvlMut==altura){
+           lvlMut=lvlMut-1;
+        }
+        System.out.println("altura: " + altura + " lvlMut:" + lvlMut);
+        this.mutar2(this.raiz,altura-1,lvlMut);
+        
     }
     
-    private synchronized void mutar(Nodo nodo, int altura,int lvlMut){// requiere que ya se hayan llenado las hojas.
-        Operacion operRand= null;
+    private synchronized void mutar2(Nodo nodo, int altura,int lvlMut){// requiere que ya se hayan llenado las hojas.
+        
         int randMut=0;
         int randBiMut=0;
         boolean flag = nodo.getDatos() instanceof Binario;
@@ -127,41 +139,62 @@ public class ArbolGeneticoPuertas {
         }else{
             
             if(altura==lvlMut){
-                randBiMut=(int) (Math.random()*2);
+                randBiMut=(int) (Math.random()*100);
 
-                if(randBiMut==1 & !mutado){
+                if(randBiMut<50 & !mutado){
                  /**
                   * le voy a meter un numero a este nodo
                   */
                     if(!(nodo.getDatos() instanceof Binario)){
+                        
+                        randMut=(int) (Math.random()*(binarios.size()-1));
+                        Binario bin= new Binario();
+                        
+                        /*if(randMut==binarios.size()){
+                                    randMut=randMut-1;
+                        }*/
+                        bin.setLetra(binarios.get(randMut).getLetra());
+                        bin.setValor(binarios.get(randMut).getValor());
+                        nodo.setDatos(bin);
                         nodo.setHojaIzquierda(null);
                         nodo.setHojaDerecha(null);
-                        
-                    }
-                    
-                    while(true){
+                        mutado=true;//el arbol ya muto.
+                        return;
+   
+                    }else{
+                        while(true){
 
-                        randMut=(int) (Math.random()*(binarios.size()-1));
 
-                        Binario bin= (Binario) nodo.getDatos();
+                                randMut=(int) (Math.random()*(binarios.size()-1));
+                                
+                                /*if(randMut==binarios.size()){
+                                   
+                                    randMut=randMut-1;
+                                }*/
+                                Binario bin= (Binario) nodo.getDatos();
 
-                        if(binarios.get(randMut).getId() != bin.getId()){
-                            bin.setLetra(binarios.get(randMut).getLetra());
-                            bin.setValor(binarios.get(randMut).getValor());
-                            mutado=true;//el arbol ya muto.
-                            break;
+                                if(binarios.get(randMut).getId() != bin.getId()){
+                                    bin.setLetra(binarios.get(randMut).getLetra());
+                                    bin.setValor(binarios.get(randMut).getValor());
+                                    nodo.setDatos(bin);
+                                    mutado=true;//el arbol ya muto.
+                                    break;
+                                    //return;
+                                }
+
                         }
-                    }
-
-
+                    }    
+                    
+                    return;
 
                 }else{// le voy a meter un operador
                     
                     if(!(nodo.getDatos() instanceof Binario)){
                         
                         while(true){ //no puedo meterle el mismo operador
-                        
+                            
                             randMut = (int) (Math.random() * operaciones.size());  
+                            Operacion operRand;
                             operRand= operaciones.get(randMut);  
                             
                             Operacion oper=(Operacion) nodo.getDatos();
@@ -176,14 +209,16 @@ public class ArbolGeneticoPuertas {
                                         nodo.setDatos(operRand);
                                         nodo.setHojaDerecha(null);
                                         mutado=true;
+                                        //return;
                                         break;
+                                        
                                     }else{
                                         //elimina la rama izquierda
                                         nodo.setDatos(operRand);
                                         nodo.setHojaIzquierda(null);
                                         mutado=true;
                                         break;
-                                    
+                                        //return;
                                     }
                                     
                                    
@@ -192,10 +227,12 @@ public class ArbolGeneticoPuertas {
                                     nodo.setDatos(operRand);
                                     mutado=true;
                                     break;
+                                    //return;
                                 
                                 }
                             }
-                        }        
+                        }
+                        return;
                     }else{// es un binario el antiguo debera cambiar por un operador
                         
                         /**
@@ -204,20 +241,28 @@ public class ArbolGeneticoPuertas {
                          * para que se cumpla que no tenga problemas que siempre deben haber
                          * hojas con terminales
                          */
+                        Operacion operRand;
+                        randMut = (int) (Math.random() * operaciones.size());  
+                        operRand= operaciones.get(randMut);  
+                       
+                        nodo.setDatos(operRand);
+                        mutado=true;
+                        
                         this.addNodo(nodo,altura-1);
-                    
+                        return;
                     
                     }                      
                 }
                 
+            
             }else{// no se llego al nivel toca seguir bajando
                 
                 if(nodo.getHojaIzquierda()!=null){
-                    this.mutar(nodo.getHojaIzquierda(), altura-1, lvlMut);
+                    this.mutar2(nodo.getHojaIzquierda(), altura-1, lvlMut);
                 }
                 
                 if(nodo.getHojaDerecha()!=null){
-                    this.mutar(nodo.getHojaDerecha(), altura-1, lvlMut);
+                    this.mutar2(nodo.getHojaDerecha(), altura-1, lvlMut);
                 }
             }    
         }
@@ -414,9 +459,7 @@ public class ArbolGeneticoPuertas {
                     }
                 }
                 
-            }
-            
-            calcularErrorParcial(tabla[i][columnas-1]);
+            }    
             
         }
         
@@ -424,10 +467,20 @@ public class ArbolGeneticoPuertas {
          * al terminar de calcular los parciales calcula el total
          */
         
-        calcularErrorTotal((columnas-1));
+        
+    }
+    public  void calcularErrorParcial(int tabla[][],int filas,int columnas){
+        
+        for (int i = 0; i < filas; i++) { //este for recorre las filas
+            //System.out.println("\npatron ");
+            llenarErrorParcial(tabla[i][columnas-1]);
+            
+        }
+        
+    
     }
     
-    private void calcularErrorTotal(int valores){
+    public void calcularErrorTotal(int valores){
         double error=0;
         int cont=0;
         int numErr=0;
@@ -454,10 +507,10 @@ public class ArbolGeneticoPuertas {
         
     }
     
-    private void calcularErrorParcial(int esperado){
+    private void llenarErrorParcial(int esperado){
         int resultado;
         double error;
-        resultado=operarArbol(this.raiz);
+        resultado=operarArbol(raiz);
         //System.out.println("resultado: " + resultado + "esperado: " + esperado);
         error=pow((esperado - resultado),2);
         

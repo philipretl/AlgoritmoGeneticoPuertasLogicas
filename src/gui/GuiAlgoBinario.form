@@ -131,6 +131,9 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="txtRuta">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="/home/philipretl/NetBeansProjects/AlgoritmoGeneticoCompuertasLogicas/tabla1.txt"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnExaminar">
           <Properties>
@@ -184,6 +187,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNumIndividuos">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="10"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

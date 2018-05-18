@@ -118,6 +118,8 @@ public class GuiAlgoBinario extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        txtRuta.setText("/home/philipretl/NetBeansProjects/AlgoritmoGeneticoCompuertasLogicas/tabla1.txt");
+
         btnExaminar.setText("Examinar");
         btnExaminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,6 +145,8 @@ public class GuiAlgoBinario extends javax.swing.JFrame {
         jLabel6.setText("DATOS");
 
         jLabel7.setText("Numero de individuos:");
+
+        txtNumIndividuos.setText("10");
 
         javax.swing.GroupLayout pnlDatosLayout = new javax.swing.GroupLayout(pnlDatos);
         pnlDatos.setLayout(pnlDatosLayout);

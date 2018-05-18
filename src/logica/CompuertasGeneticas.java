@@ -87,7 +87,9 @@ public class CompuertasGeneticas {
             
             ArbolGeneticoPuertas arbol = new ArbolGeneticoPuertas(operaciones,generacion);
             arbol.addNodo(5);
-            
+            arbol.llenarHojas(tabla, filas, columnas);// llena las hojas con los valores de la tabla 
+            arbol.calcularErrorParcial(tabla, filas, columnas);
+            arbol.calcularErrorTotal((columnas-1));
             arboles.add(arbol);
                 
             cont++;
@@ -96,7 +98,7 @@ public class CompuertasGeneticas {
            // System.out.println("cont:" + cont);
         }
         generacion=generacion+1;
-        mutar();
+        
     
        // System.out.println("tamaño del array de arbol: " +arboles.size());
         
@@ -107,34 +109,42 @@ public class CompuertasGeneticas {
         
         int indiceMut=0;
         int random=0;
-        
+        //ArbolGeneticoPuertas arbMut;//relacion 1
         for (int i = 0; i < arboles.size(); i++) {
             ArbolGeneticoPuertas arbMut = new ArbolGeneticoPuertas(operaciones, generacion);
-            Nodo nuevoNodo = new Nodo(i);
-            nuevoNodo.setDatos(arboles.get(i).getRaiz().getDatos());
-            arbMut.setRaiz(nuevoNodo);
             mutados.add(arbMut);
+            mutados.get(i).setBinarios(arboles.get(i).getBinarios());
+            Nodo nuevoNodo = new Nodo(i);
+            mutados.get(i).setRaiz(arboles.get(i).getRaiz());
+            //arbMut.setRaiz(nuevoNodo);
+            
+            arbMut.llenarHojas(tabla, filas, columnas);// llena las hojas con los valores de la tabla 
+            arbMut.calcularErrorParcial(tabla, filas, columnas);
+            arbMut.calcularErrorTotal((columnas-1));
+            
+            
         }
         
-        indiceMut= (int) (individuos * 0.15);
+       // indiceMut= (int) (individuos * 0.15);//
+       indiceMut= (int) (individuos * 0.50);//borrar esto
+       System.out.println("indice de mutacion: "+ indiceMut);
         
         for (int i = 0; i < indiceMut; i++) {
-            random= (int) (Math.random() * mutados.size());
-            mutados.get(i).mutar(5);
+            random= (int) (Math.random() * mutados.size()-1);
+            System.out.println("id del mutado:" + random);
+            mutados.get(random).mutar(5);
         }
         
     }
     
     private void imprimirInfo(ArbolGeneticoPuertas arbol){
+        
         Operacion oper = (Operacion) arbol.getRaiz().getDatos();
         System.out.print("\nRaiz"+"/"+oper.getNombre() + " "); 
 
-        arbol.llenarHojas(tabla, filas, columnas);// llena las hojas con los valores de la tabla 
-        /**
-         * el metodo llenar hojas maneja tambien el calculo de los errores parciales y 
-         * el error total + la penalizacion 
-         */
 
+        System.out.println("mutado: " + arbol.isMutado());
+       
         System.out.println("\nPreorden");	
         arbol.recorridoPreorden();
 
@@ -151,13 +161,35 @@ public class CompuertasGeneticas {
     
         manejadorGenetico();
         
+       
         for (int i = 0; i <arboles.size(); i++) {
             System.out.println("original");
-            imprimirInfo(arboles.get(i));
-            System.out.println("mutados");
-            imprimirInfo(mutados.get(i));// la info del mutado
+            System.out.println("---------------------" + "(" + i+ ")" );
+            imprimirInfo(arboles.get(i));    
+           
         }
         
+        mutar();
+        
+       for (int p = 0; p < mutados.size(); p++) {
+           System.out.println("mutados");
+           System.out.println("---------------------" + "(" + p+ ")" );
+           imprimirInfo(mutados.get(p));// la info del mutado
+           
+        }
+        /*
+        mutar();
+          
+        for (int i = 0; i <arboles.size(); i++) {
+            System.out.println("original");
+            System.out.println("---------------------" + "(" + i+ ")" );
+            imprimirInfo(arboles.get(i));
+            System.out.println("---------------------" + "(" + i+ ")" );
+            imprimirInfo(mutados.get(i));// la info del mutado
+            
+           
+        }
+        */
 
         
         /* int x=0;
