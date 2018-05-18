@@ -24,6 +24,7 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
 	CompuertasGeneticas compGen;
         ArrayList<String> letras;
         int n,m;
+        int[][] matriz;
 	/**
 	 * Creates new form GuiAlgoBinario
 	 */
@@ -342,8 +343,8 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
                 //Ecribe la ruta del fichero seleccionado en el campo de texto
                 txtRuta.setText(fichero.getAbsolutePath());
             
-                int[][] matriz = cargarMatriz(fichero);
-                System.out.println("gui - numero de individuos"+ txtNumIndividuos.getText());
+                 matriz = cargarMatriz(fichero);
+                
                 compGen= new CompuertasGeneticas(n,m,Integer.parseInt(txtNumIndividuos.getText()));
                 mostrarMatriz(matriz);
                 compGen.setTabla(matriz);    
@@ -359,7 +360,11 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
         }else{
             // solucionado pequeño problema a la hora de que se carguen nuevos archivos y se modifiquen los 
             //individuos
-            compGen.setIndividuos(Integer.parseInt(txtNumIndividuos.getText()));
+            
+            compGen= new CompuertasGeneticas(n,m,Integer.parseInt(txtNumIndividuos.getText()));
+            mostrarMatriz(matriz);
+            compGen.setTabla(matriz);    
+            
             compGen.arrancar();
             JOptionPane.showMessageDialog(null, "Proceso Terminado");
             double error=compGen.getArboles().get(0).getErrorTotal();
