@@ -61,6 +61,16 @@ public class CompuertasGeneticas implements Serializable{
         return arboles;
     }
 
+    public int getIndividuos() {
+        return individuos;
+    }
+
+    public void setIndividuos(int individuos) {
+        this.individuos = individuos;
+    }
+    
+    
+
     
     private void iniciarComp(){
         Operacion and = new And();

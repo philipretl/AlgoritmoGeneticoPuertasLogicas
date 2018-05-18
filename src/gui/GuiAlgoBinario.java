@@ -357,6 +357,9 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
             JOptionPane.showMessageDialog(null, "Por favor llene los campos");
         
         }else{
+            // solucionado pequeño problema a la hora de que se carguen nuevos archivos y se modifiquen los 
+            //individuos
+            compGen.setIndividuos(Integer.parseInt(txtNumIndividuos.getText()));
             compGen.arrancar();
             JOptionPane.showMessageDialog(null, "Proceso Terminado");
             double error=compGen.getArboles().get(0).getErrorTotal();
