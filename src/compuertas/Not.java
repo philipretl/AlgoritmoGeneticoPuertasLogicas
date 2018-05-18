@@ -5,11 +5,13 @@
  */
 package compuertas;
 
+import java.io.Serializable;
+
 /**
  *
  * @author philipretl
  */
-public class Not extends Operacion {
+public class Not extends Operacion implements Serializable {
 
     public Not() {
             this.nombre="Not";

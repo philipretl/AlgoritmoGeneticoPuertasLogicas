@@ -5,11 +5,13 @@
  */
 package compuertas;
 
+import java.io.Serializable;
+
 /**
  *
  * @author philipretl
  */
-public class Xor extends Operacion {
+public class Xor extends Operacion implements Serializable{
 
 	public Xor() {
 		this.nombre="Xor";

@@ -5,11 +5,13 @@
  */
 package compuertas;
 
+import java.io.Serializable;
+
 /**
  *
  * @author philipretl
  */
-public class And extends Operacion {
+public class And extends Operacion implements Serializable{
 	
 	public And() {
 		this.nombre="And";

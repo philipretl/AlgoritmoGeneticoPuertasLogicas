@@ -5,11 +5,13 @@
  */
 package compuertas;
 
+import java.io.Serializable;
+
 /**
  *
  * @author philipretl
  */
-public abstract class Operacion<T>{
+public abstract class Operacion<T> implements Serializable{
 	protected String nombre;
 	protected String operador;
 	protected int resultado;

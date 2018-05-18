@@ -5,11 +5,13 @@
  */
 package arbol;
 
+import java.io.Serializable;
+
 /**
  *
  * @author philipretl
  */
-public class Nodo <T>{
+public class Nodo <T> implements Serializable{
 //miembros de acceso
     
     T datos;

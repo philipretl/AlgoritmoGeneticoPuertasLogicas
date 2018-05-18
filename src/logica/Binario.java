@@ -5,11 +5,13 @@
  */
 package logica;
 
+import java.io.Serializable;
+
 /**
  *
  * @author philipretl
  */
-public class Binario {
+public class Binario implements Serializable {
 	int valor;
         int id;
         String letra;

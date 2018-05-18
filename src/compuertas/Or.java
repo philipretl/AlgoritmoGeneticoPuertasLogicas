@@ -5,11 +5,13 @@
  */
 package compuertas;
 
+import java.io.Serializable;
+
 /**
  *
  * @author philipretl
  */
-public class Or extends Operacion {
+public class Or extends Operacion implements Serializable{
 
 	public Or() {
 		this.nombre="Or";

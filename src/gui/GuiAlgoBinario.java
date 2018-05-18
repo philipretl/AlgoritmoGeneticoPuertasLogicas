@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -19,7 +20,7 @@ import logica.CompuertasGeneticas;
  *
  * @author philipretl
  */
-public class GuiAlgoBinario extends javax.swing.JFrame {
+public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
 	CompuertasGeneticas compGen;
         int n,m;
 	/**

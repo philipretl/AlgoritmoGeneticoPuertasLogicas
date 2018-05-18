@@ -28,7 +28,7 @@ public class ArbolGeneticoPuertas implements Serializable{
     private ArrayList<String> abecedario;
     private int generacion;
     private boolean mutado;
-
+    
 	
      
     //construir un arbol vacio
@@ -45,6 +45,32 @@ public class ArbolGeneticoPuertas implements Serializable{
         mutado=false;
     }
 
+    public ArrayList<Operacion> getOperaciones() {
+        return operaciones;
+    }
+
+    public void setOperaciones(ArrayList<Operacion> operaciones) {
+        this.operaciones = operaciones;
+    }
+
+    public ArrayList<Double> getErrores() {
+        return errores;
+    }
+
+    public void setErrores(ArrayList<Double> errores) {
+        this.errores = errores;
+    }
+
+    public ArrayList<String> getAbecedario() {
+        return abecedario;
+    }
+
+    public void setAbecedario(ArrayList<String> abecedario) {
+        this.abecedario = abecedario;
+    }
+    
+    
+    
     public int getGeneracion() {
         return generacion;
     }
@@ -94,6 +120,18 @@ public class ArbolGeneticoPuertas implements Serializable{
     public void setBinarios(ArrayList<Binario> binarios) {
         this.binarios = binarios;
     }
+
+    public void setCont(int cont) {
+        this.cont = cont;
+    }
+
+    public void setErrorTotal(double errorTotal) {
+        this.errorTotal = errorTotal;
+    }
+
+    public void setMutado(boolean mutado) {
+        this.mutado = mutado;
+    }
     
     
     private void iniciarComponentes(){
@@ -111,21 +149,21 @@ public class ArbolGeneticoPuertas implements Serializable{
     }
     
     
-    public synchronized void mutar(int altura){
+    public void mutar(int altura){
         int lvlMut=0;
         
-        lvlMut=(int) (Math.random()*altura);// Ojo le puse +1 para ver que no mute la raiz
+        lvlMut=(int) (Math.random()*altura-1);
         
-        if(lvlMut==altura){
-           lvlMut=lvlMut-1;
-        }
+        /*if(lvlMut==altura){
+           lvlMut=0;
+        }*/
         System.out.println("altura: " + altura + " lvlMut:" + lvlMut);
         this.mutar2(this.raiz,altura-1,lvlMut);
         
     }
     
     private synchronized void mutar2(Nodo nodo, int altura,int lvlMut){// requiere que ya se hayan llenado las hojas.
-        
+        Operacion operRand=null;
         int randMut=0;
         int randBiMut=0;
         boolean flag = nodo.getDatos() instanceof Binario;
@@ -134,21 +172,22 @@ public class ArbolGeneticoPuertas implements Serializable{
          * si se cumple que se llega a un binario pero aun falta niveles por
          * seguir bajando no se puede realizar la mutacion.
          */
-        if(flag & altura!=lvlMut){
+        if(flag & altura!=lvlMut){ //|| (altura==0 & flag)){
             return;
+        
         }else{
             
             if(altura==lvlMut){
-                randBiMut=(int) (Math.random()*100);
+                randBiMut=(int) (Math.random()*2);
 
-                if(randBiMut<50 & !mutado){
+                if(randBiMut==1 & !mutado){
                  /**
                   * le voy a meter un numero a este nodo
                   */
-                    if(!(nodo.getDatos() instanceof Binario)){
+                    if(flag){//&& !nodo.getDatos().equals(raiz)){
                         
-                        randMut=(int) (Math.random()*(binarios.size()-1));
-                        Binario bin= new Binario();
+                        randMut=(int) (Math.random()*binarios.size()-1);
+                        Binario bin= (Binario) nodo.getDatos();
                         
                         /*if(randMut==binarios.size()){
                                     randMut=randMut-1;
@@ -156,49 +195,43 @@ public class ArbolGeneticoPuertas implements Serializable{
                         bin.setLetra(binarios.get(randMut).getLetra());
                         bin.setValor(binarios.get(randMut).getValor());
                         nodo.setDatos(bin);
+                        mutado=true;//el arbol ya muto.
+                        //return;
+   
+                    }else{// es una operacion le corto el resto.
+                        
+                        randMut=(int) (Math.random()*binarios.size()-1);
+                        Binario bin= new Binario();
+                        int pos=0;
+                        nodo.setDatos(bin);
+                        
+                        binarios.add(bin);
+                        pos=binarios.size()-1;
+                        binarios.get(pos).setLetra(binarios.get(randMut).getLetra());
+                        binarios.get(pos).setValor(binarios.get(randMut).getValor());
+                        binarios.get(pos).setId(binarios.size()-1);
+                        
+                        
+                        
                         nodo.setHojaIzquierda(null);
                         nodo.setHojaDerecha(null);
+                        //
                         mutado=true;//el arbol ya muto.
-                        return;
-   
-                    }else{
-                        while(true){
-
-
-                                randMut=(int) (Math.random()*(binarios.size()-1));
-                                
-                                /*if(randMut==binarios.size()){
-                                   
-                                    randMut=randMut-1;
-                                }*/
-                                Binario bin= (Binario) nodo.getDatos();
-
-                                if(binarios.get(randMut).getId() != bin.getId()){
-                                    bin.setLetra(binarios.get(randMut).getLetra());
-                                    bin.setValor(binarios.get(randMut).getValor());
-                                    nodo.setDatos(bin);
-                                    mutado=true;//el arbol ya muto.
-                                    break;
-                                    //return;
-                                }
-
-                        }
-                    }    
                     
-                    return;
-
+                    }  
+                    
                 }else{// le voy a meter un operador
                     
-                    if(!(nodo.getDatos() instanceof Binario)){
+                    if(!flag){ // es un operador
                         
                         while(true){ //no puedo meterle el mismo operador
-                            
+                           
                             randMut = (int) (Math.random() * operaciones.size());  
-                            Operacion operRand;
                             operRand= operaciones.get(randMut);  
                             
                             Operacion oper=(Operacion) nodo.getDatos();
-                            if(!operRand.getNombre().equals(oper.getNombre())){
+                            
+                            if(!(operRand.getNombre().equals(oper.getNombre()))){
                                 //no es el mismo entonces se puede meter
                                 if(operRand instanceof Not){
                                     // si el nuevo es una instancia de not
@@ -232,24 +265,25 @@ public class ArbolGeneticoPuertas implements Serializable{
                                 }
                             }
                         }
-                        return;
-                    }else{// es un binario el antiguo debera cambiar por un operador
+                       // return;
+                   
+                    }else{// es un
+                        Binario bin = (Binario) nodo.getDatos();
                         
-                        /**
-                         * Como es un binario el angiuo tengo que pasarlo por el metodo 
-                         * addNodo para que el operado dado el caso le meta las variables que le faltan
-                         * para que se cumpla que no tenga problemas que siempre deben haber
-                         * hojas con terminales
-                         */
-                        Operacion operRand;
+                        for (int i = 0; i <binarios.size() ; i++) {
+                            if(bin.getId()==binarios.get(i).getId()){
+                                binarios.remove(i);
+                            }
+                        }// remuevo el binario que ya no va a estar mas ahi
+                        
                         randMut = (int) (Math.random() * operaciones.size());  
                         operRand= operaciones.get(randMut);  
                        
                         nodo.setDatos(operRand);
                         mutado=true;
-                        
-                        this.addNodo(nodo,altura-1);
-                        return;
+                        this.addNodo(nodo, altura-1);
+                       
+                        //return;
                     
                     }                      
                 }
@@ -258,11 +292,11 @@ public class ArbolGeneticoPuertas implements Serializable{
             }else{// no se llego al nivel toca seguir bajando
                 
                 if(nodo.getHojaIzquierda()!=null){
-                    this.mutar2(nodo.getHojaIzquierda(), altura-1, lvlMut);
+                    mutar2(nodo.getHojaIzquierda(), altura-1, lvlMut);
                 }
                 
                 if(nodo.getHojaDerecha()!=null){
-                    this.mutar2(nodo.getHojaDerecha(), altura-1, lvlMut);
+                    mutar2(nodo.getHojaDerecha(), altura-1, lvlMut);
                 }
             }    
         }
@@ -442,9 +476,50 @@ public class ArbolGeneticoPuertas implements Serializable{
          */
         for (int p = 0; p < binarios.size(); p++) {
             
-            rand= (int) (Math.random() * (columnas-1));// va la columba porque es la cantidad de letras que voy a usar
+            rand= (int) (Math.random() * (columnas-1));// va la columbna porque es la cantidad de letras que voy a usar
             binarios.get(p).setLetra(abecedario.get(rand));
             binarios.get(p).setId(rand);
+        }
+        
+        
+        
+        for (int i = 0; i < filas; i++) { //este for recorre las filas
+            //System.out.println("\npatron ");
+            for (int j = 0; j < columnas-1; j++) {// recorre las columnas 
+                for (int k = 0; k < binarios.size(); k++) {// recorre todos los binarios buscando la letra que le corresponde
+                    if(binarios.get(k).getId()==j){
+                        binarios.get(k).setValor(tabla[i][j]);
+                        //break;// no va por que puede encontrarlo varias veces
+                    }
+                }
+                
+            }    
+            
+        }
+        
+        /**
+         * al terminar de calcular los parciales calcula el total
+         */
+        
+        
+    }
+    
+    public void llenarHojasMut(int tabla[][],int filas,int columnas){
+        int rand;
+        /**
+         * Genera un aleatorio para asignar una letra aleatoria
+         * a las hojas o nodos terminales
+         */
+        for (int p = 0; p < binarios.size(); p++) {
+            
+            for (int l = 0; l < columnas-1; l++) {
+                System.out.println("id binario: "+binarios.get(p).getLetra());
+                if(binarios.get(p).getId()==l){
+                    binarios.get(p).setLetra(abecedario.get(l));
+                      
+                }
+            }
+            
         }
         
         
@@ -510,7 +585,8 @@ public class ArbolGeneticoPuertas implements Serializable{
     private void llenarErrorParcial(int esperado){
         int resultado;
         double error;
-        resultado=operarArbol(raiz);
+        resultado=operarArbol(this.raiz);
+        
         //System.out.println("resultado: " + resultado + "esperado: " + esperado);
         error=pow((esperado - resultado),2);
         
