@@ -172,48 +172,22 @@ public class CompuertasGeneticas implements Serializable{
     
     public void arrancar(){
         int cont=0;
-        List<ArbolGeneticoPuertas> todos = Serialization.copy(arboles);;
+        manejadorGenetico();
+        List<ArbolGeneticoPuertas> todos = Serialization.copy(arboles);
         
-        while (cont < 10){
+        while (cont < 100){
             
-            //mutados.get(0).setGeneracion(1);
-
-            /* for (int i = 0; i <arboles.size(); i++) {
-                 System.out.println("original");
-                 System.out.println("---------------------" + "(" + i+ ")" );
-                 System.out.println("raiz dir:"+arboles.get(i).getRaiz());
-                 imprimirInfo(arboles.get(i));
-                 System.out.println("---------------------" + "(" + i+ ")" );
-                 System.out.println("raiz dir:"+mutados.get(i).getRaiz());
-                 imprimirInfo(mutados.get(i));// la info del mutado
-
-             }
-
-             
-
-             /*for (int g = 0; g <mutados.size(); g++) {
-                 System.out.println("cruzados");
-                 System.out.println("---------------------" + "(" + g+ ")" );
-                 System.out.println("raiz dir:"+mutados.get(g).getRaiz());
-                 imprimirInfo(mutados.get(g));// la info del mutado
-
-             }*/
-
-            //= new ArrayList<ArbolGeneticoPuertas>(); 
-            manejadorGenetico();
             mutar();
             cruzar();
             
-            Collections.sort(arboles);
-            Collections.sort(mutados);
-             //todos= Serialization.copy(arboles);
-
+            for (int i = 0; i < todos.size(); i++) {
+                todos.remove(i);
+            }
+            
             
 
             for (int i = 0; i < mutados.size(); i++) {
-
-             todos.add(Serialization.copy(arboles.get(i)));
-                todos.add(Serialization.copy(mutados.get(i)));
+               todos.add(i,Serialization.copy(mutados.get(i)));
             }
                
             Collections.sort(todos);
@@ -222,25 +196,18 @@ public class CompuertasGeneticas implements Serializable{
                 arboles.set(i,todos.get(i));
             }
               
-             //System.out.println("tamaño todos"+ todos.size());
-
+     
              System.out.println("tamaño todos" + todos.size());
              
 
 
-             /*for (int i = 0; i < individuos; i++) {
-                 arboles.set(i,todos.get(i));
-             }*/
               
             cont ++;  
         }   
-          
-       
-       /*for (int i = 0; i < individuos; i++) {
-            System.out.print("error total:" + arboles.get(i).getErrorTotal());
-        }*/
+
         System.out.println("\nposible solucion");
-        for (int i = 0; i < individuos/2; i++) {
+        for (int i = 0; i < individuos; i++) {
+            imprimirInfo(arboles.get(i));
             imprimirInfo(todos.get(i));
         
         }
