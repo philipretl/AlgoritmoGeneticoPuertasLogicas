@@ -158,7 +158,8 @@ public class CompuertasGeneticas implements Serializable{
         System.out.println("cruzad " + arbol.isCruzado());
        
         System.out.println("\nPreorden");	
-        arbol.recorridoPreorden();
+        String recorridoPreorden = arbol.recorridoPreorden();
+        System.out.println("\n RECORRIDO PRE: "+ recorridoPreorden);
 
         System.out.println("\nInorden");
         arbol.recorridoInorden();
@@ -175,7 +176,7 @@ public class CompuertasGeneticas implements Serializable{
         manejadorGenetico();
         List<ArbolGeneticoPuertas> todos = Serialization.copy(arboles);
         
-        while (cont < 100){
+        while (cont < 200){
             
             mutar();
             cruzar();
@@ -190,17 +191,20 @@ public class CompuertasGeneticas implements Serializable{
                todos.add(i,Serialization.copy(mutados.get(i)));
             }
                
-            Collections.sort(todos);
+          
             
             for (int i = 0; i < arboles.size(); i++) {
-                arboles.set(i,todos.get(i));
+              todos.add(i,Serialization.copy(arboles.get(i)));
             }
-              
+            
+            Collections.sort(todos);  
      
-             System.out.println("tamaño todos" + todos.size());
+            System.out.println("tamaño todos" + todos.size());
              
 
-
+            for (int i = 0; i < arboles.size(); i++) {
+                arboles.set(i, Serialization.copy(todos.get(i)));
+            }
               
             cont ++;  
         }   
@@ -208,7 +212,6 @@ public class CompuertasGeneticas implements Serializable{
         System.out.println("\nposible solucion");
         for (int i = 0; i < individuos; i++) {
             imprimirInfo(arboles.get(i));
-            imprimirInfo(todos.get(i));
         
         }
         

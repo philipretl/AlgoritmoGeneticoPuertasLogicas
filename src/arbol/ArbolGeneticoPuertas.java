@@ -732,7 +732,7 @@ public class ArbolGeneticoPuertas implements Serializable, Comparable<ArbolGenet
         
         numErr= valores - cont;
         
-        errorTotal = errorTotal + (numErr * 0.1);
+        errorTotal = errorTotal + (numErr * 0.3);
         
         
     }
@@ -751,53 +751,39 @@ public class ArbolGeneticoPuertas implements Serializable, Comparable<ArbolGenet
 
    	 
     // EMPIEZA EL RECORRIDO EN PREORDEN
-    public synchronized void recorridoPreorden()
-    {	cont=0;
-        ayudantePreorden(raiz);
-    }
-	/**
-	 * borrar esta mondad
-	 */
-	 public synchronized void recorridoPreorden2()
-    {	cont=0;
-        ayudantePreorden2(raiz);
-		
-		
+    public synchronized String recorridoPreorden(){	
+        cont=0;
+        String recorrido="";
+        recorrido=ayudantePreorden(raiz,recorrido);
+        recorrido=recorrido+" )";
+        return recorrido;
     }
 	 
-	 /**
-	  * borrar esta otra mondad
-	  * 
-	  */
-    private void ayudantePreorden2(Nodo nodo){
-        if(nodo == null)
-            return;
-        
-        cont++;
-            //mostrar datos del nodo
-        ayudantePreorden2(nodo.nodoizquierdo);   //recorre subarbol izquierdo
-        ayudantePreorden2(nodo.nododerecho);     //recorre subarbol derecho
-    }
 	 
     //meoto recursivo para recorrido en preorden
     
-    private void ayudantePreorden(Nodo nodo)
+    private String ayudantePreorden(Nodo nodo,String recorrido)
     {
         if(nodo == null)
-            return;
+            return recorrido;
         
         if (nodo.getDatos() instanceof Operacion){
                 Operacion oper = (Operacion) nodo.getDatos();
                 System.out.print("id: "+ nodo.getId() + "["+oper.getNombre() + "] "); 
+                if(cont==0)
+                    recorrido=recorrido+oper.getNombre()+" ( (";
+                recorrido=recorrido+oper.getNombre()+" (";
         }else{
                 Binario bin = (Binario) nodo.getDatos();
-                System.out.print("id: " + nodo.getId() + " ("+ bin.getLetra()+") "  + "["+ bin.getValor()+"] ");	
+                System.out.print("id: " + nodo.getId() + " ("+ bin.getLetra()+") "  + "["+ bin.getValor()+"] ");
+                recorrido=recorrido+bin.getLetra()+" ) ";
         }
 
         cont++;
             //mostrar datos del nodo
-        ayudantePreorden(nodo.nodoizquierdo);   //recorre subarbol izquierdo
-        ayudantePreorden(nodo.nododerecho);     //recorre subarbol derecho
+        recorrido=ayudantePreorden(nodo.nodoizquierdo,recorrido);   //recorre subarbol izquierdo
+        recorrido=ayudantePreorden(nodo.nododerecho,recorrido);     //recorre subarbol derecho
+        return recorrido;
     }
 	
 	 //EMPEZAR RECORRIDO INORDEN
