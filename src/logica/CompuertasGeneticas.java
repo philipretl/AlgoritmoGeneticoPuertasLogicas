@@ -57,6 +57,11 @@ public class CompuertasGeneticas implements Serializable{
         //arbol = new ArbolGeneticoPuertas(operaciones);
     }
 
+    public List<ArbolGeneticoPuertas> getArboles() {
+        return arboles;
+    }
+
+    
     private void iniciarComp(){
         Operacion and = new And();
         Operacion not = new Not();
@@ -176,7 +181,7 @@ public class CompuertasGeneticas implements Serializable{
         manejadorGenetico();
         List<ArbolGeneticoPuertas> todos = Serialization.copy(arboles);
         
-        while (cont < 200){
+        while (cont < 500){
             
             mutar();
             cruzar();

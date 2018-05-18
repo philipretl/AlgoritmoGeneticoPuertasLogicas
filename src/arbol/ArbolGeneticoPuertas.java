@@ -758,13 +758,9 @@ public class ArbolGeneticoPuertas implements Serializable, Comparable<ArbolGenet
 	 
     //meoto recursivo para recorrido en preorden
     
-<<<<<<< HEAD
+
     private String ayudantePreorden(Nodo nodo,String recorrido)
-=======
-    //manzano me la pela
-    
-    private void ayudantePreorden(Nodo nodo)
->>>>>>> d239cabece5640a32b390ca28568864ba2c6cd9f
+  
     {
         if(nodo == null)
             return recorrido;
