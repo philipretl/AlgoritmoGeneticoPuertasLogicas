@@ -508,10 +508,6 @@ public class ArbolGeneticoPuertas implements Serializable, Comparable<ArbolGenet
 
                         }else{//ingresa un binario
 
-                            /*biRand = (int) (Math.random()* 2); 
-                            //System.out.println("bi rand: " + biRand);
-
-                            nodo1.setDatos(biRand);*/
                             Binario bin1= new Binario();
                             binarios.add(bin1);
                             nodo1.setDatos(binarios.get(binarios.size()-1));
@@ -781,6 +777,8 @@ public class ArbolGeneticoPuertas implements Serializable, Comparable<ArbolGenet
 	 
     //meoto recursivo para recorrido en preorden
     
+    //manzano me la pela
+    
     private void ayudantePreorden(Nodo nodo)
     {
         if(nodo == null)
@@ -874,37 +872,6 @@ public class ArbolGeneticoPuertas implements Serializable, Comparable<ArbolGenet
      
    
 
-    
-
-    
-     /* esta recursion funcion debo cambiarla ahora a el tipo binario	
-    public synchronized int operarArbol(Nodo nodo){
-
-        if(nodo.getHojaIzquierda()== null || nodo.getHojaDerecha()==null){
-            return 0;
-        }else{
-            if (nodo.getHojaIzquierda().getDatos() instanceof Integer & nodo.getHojaDerecha().getDatos() instanceof Integer){
-                Operacion oper = (Operacion) nodo.getDatos();
-                return oper.operar(nodo.getHojaIzquierda().getDatos(),nodo.getHojaDerecha().getDatos() );
-            }else{
-
-                if (!(nodo.getHojaIzquierda().getDatos() instanceof Integer) & !(nodo.getHojaDerecha().getDatos() instanceof Integer)){
-                    Operacion oper = (Operacion) nodo.getDatos();
-                    return oper.operar(operarArbol(nodo.getHojaIzquierda()),operarArbol(nodo.getHojaDerecha()));
-                }else{	
-                    if(!(nodo.getHojaIzquierda().getDatos() instanceof Integer)){
-                        Operacion oper = (Operacion) nodo.getDatos();
-                        return oper.operar(operarArbol(nodo.getHojaIzquierda()),nodo.getHojaDerecha().getDatos() );
-                    }else{
-                        Operacion oper= (Operacion) nodo.getDatos();
-                        return oper.operar(operarArbol(nodo.getHojaDerecha()),nodo.getHojaIzquierda().getDatos() );	
-
-                    }
-                }
-            }
-
-        }
-    }*/
 
     @Override
     public int compareTo(ArbolGeneticoPuertas o) {
