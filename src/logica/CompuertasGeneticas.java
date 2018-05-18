@@ -128,11 +128,11 @@ public class CompuertasGeneticas implements Serializable{
         
         mutados=Serialization.copy(arboles);
               
-       indiceMut= (int) (individuos * 0.50);//borrar esto
+       indiceMut= (int) (individuos * 0.15);//borrar esto
       // System.out.println("indice de mutacion: "+ indiceMut);
         
         for (int i = 0; i < indiceMut; i++) {
-            random= (int) (Math.random() * mutados.size()-1)+1;
+            random= (int) (Math.random() * mutados.size()-1);
            // System.out.println("id del mutado:" + random);
             mutados.get(random).mutar(nivel-1);
         }
@@ -202,7 +202,7 @@ public class CompuertasGeneticas implements Serializable{
             //= new ArrayList<ArbolGeneticoPuertas>(); 
             manejadorGenetico();
             mutar();
-            //cruzar();
+            cruzar();
             
             Collections.sort(arboles);
             Collections.sort(mutados);
@@ -262,8 +262,8 @@ public class CompuertasGeneticas implements Serializable{
             
              for (int i = 0; i < mutados.size(); i++) {
 
-                mutados.get(i).llenarHojasMut(tabla, filas, columnas);
-                mutados.get(i).setErrorTotal(0);
+                //mutados.get(i).llenarHojasMut(tabla, filas, columnas);
+                //mutados.get(i).setErrorTotal(0);
                 mutados.get(i).calcularErrorParcial(tabla, filas, columnas);
                 mutados.get(i).calcularErrorTotal((columnas-1));
             }
