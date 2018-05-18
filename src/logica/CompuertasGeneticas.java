@@ -17,6 +17,8 @@ import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -109,6 +111,7 @@ public class CompuertasGeneticas implements Serializable{
             
            // System.out.println("cont:" + cont);
         }
+        
         generacion=generacion+1;
         
     
@@ -126,14 +129,22 @@ public class CompuertasGeneticas implements Serializable{
         mutados=Serialization.copy(arboles);
               
        indiceMut= (int) (individuos * 0.50);//borrar esto
-       System.out.println("indice de mutacion: "+ indiceMut);
+      // System.out.println("indice de mutacion: "+ indiceMut);
         
         for (int i = 0; i < indiceMut; i++) {
             random= (int) (Math.random() * mutados.size()-1)+1;
-            System.out.println("id del mutado:" + random);
+           // System.out.println("id del mutado:" + random);
             mutados.get(random).mutar(nivel-1);
         }
-       
+        
+        for (int i = 0; i < mutados.size(); i++) {
+            mutados.get(i).setGeneracion(generacion);
+            mutados.get(i).llenarHojasMut(tabla, filas, columnas);
+            mutados.get(i).setErrorTotal(0);
+            mutados.get(i).calcularErrorParcial(tabla, filas, columnas);
+            mutados.get(i).calcularErrorTotal((columnas-1));
+        }  
+        generacion=generacion+1;
     }
     
   
@@ -144,6 +155,7 @@ public class CompuertasGeneticas implements Serializable{
 
 
         System.out.println("mutado: " + arbol.isMutado());
+        System.out.println("cruzad " + arbol.isCruzado());
        
         System.out.println("\nPreorden");	
         arbol.recorridoPreorden();
@@ -153,115 +165,112 @@ public class CompuertasGeneticas implements Serializable{
 
         System.out.println("\nNumero de terminales:" + arbol.getBinarios().size() );
         System.out.println(" cant nodos:" + arbol.getCont());
-        System.out.println("\nResultado: " + arbol.getErrorTotal());
+        System.out.println("\nError Total: " + arbol.getErrorTotal());
         System.out.println("\ngeneracion : " + arbol.getGeneracion());
     
     }
     
     public void arrancar(){
-    
-        manejadorGenetico();
+        int cont=0;
+        List<ArbolGeneticoPuertas> todos = Serialization.copy(arboles);;
         
-       /*
-        for (int i = 0; i <arboles.size(); i++) {
-            System.out.println("original");
-            System.out.println("---------------------" + "(" + i+ ")" );
-            imprimirInfo(arboles.get(i));    
-           
-        }
-        
-        mutar();
-        
-       for (int p = 0; p < mutados.size(); p++) {
-           System.out.println("mutados");
-           System.out.println("---------------------" + "(" + p+ ")" );
-           imprimirInfo(mutados.get(p));// la info del mutado
-           
-        }*/
-        
-       mutar();
-       //mutados.get(0).setGeneracion(1);
-        for (int i = 0; i < mutados.size(); i++) {
+        while (cont < 10){
             
-            mutados.get(i).llenarHojasMut(tabla, filas, columnas);
-            mutados.get(i).setErrorTotal(0);
-            mutados.get(i).calcularErrorParcial(tabla, filas, columnas);
-            mutados.get(i).calcularErrorTotal((columnas-1));
-        }  
-        for (int i = 0; i <arboles.size(); i++) {
-            System.out.println("original");
-            System.out.println("---------------------" + "(" + i+ ")" );
-            System.out.println("raiz dir:"+arboles.get(i).getRaiz());
-            imprimirInfo(arboles.get(i));
-            System.out.println("---------------------" + "(" + i+ ")" );
-           System.out.println("raiz dir:"+mutados.get(i).getRaiz());
-            imprimirInfo(mutados.get(i));// la info del mutado
-            /*for (int j = 0; j < mutados.get(i).ge; j++) {
-                
-            }*/
-           
-        }
-        
+            //mutados.get(0).setGeneracion(1);
 
-        
-        /* int x=0;
-        while(x<50){    
-            int cont=0;
-            while(true){
-                    arbol = new ArbolGeneticoPuertas(operaciones);
-                    arbol.addNodo(5);
-                    arbol.recorridoPreorden2();
+            /* for (int i = 0; i <arboles.size(); i++) {
+                 System.out.println("original");
+                 System.out.println("---------------------" + "(" + i+ ")" );
+                 System.out.println("raiz dir:"+arboles.get(i).getRaiz());
+                 imprimirInfo(arboles.get(i));
+                 System.out.println("---------------------" + "(" + i+ ")" );
+                 System.out.println("raiz dir:"+mutados.get(i).getRaiz());
+                 imprimirInfo(mutados.get(i));// la info del mutado
 
-                    if(arbol.getCont()<15& arbol.getCont()>3){
-                            break;
-                    }
+             }
 
-                    /*Operacion oper = (Operacion) arbol.getRaiz().getDatos();
-                    System.out.print("\nRaiz"+"/"+oper.getNombre() + " "); 
+             
 
+             /*for (int g = 0; g <mutados.size(); g++) {
+                 System.out.println("cruzados");
+                 System.out.println("---------------------" + "(" + g+ ")" );
+                 System.out.println("raiz dir:"+mutados.get(g).getRaiz());
+                 imprimirInfo(mutados.get(g));// la info del mutado
 
-                    System.out.println("cant:" + arbol.getCont());
-                    System.out.println("\nPreorden");	
-                    arbol.recorridoPreorden();
-                    System.out.println("\nInorden");
-                    arbol.recorridoInorden();
+             }*/
 
-                    cont++;
-                    if (cont == 500000) {
+            //= new ArrayList<ArbolGeneticoPuertas>(); 
+            manejadorGenetico();
+            mutar();
+            //cruzar();
+            
+            Collections.sort(arboles);
+            Collections.sort(mutados);
+             //todos= Serialization.copy(arboles);
 
-                        break;
-                    }      
+            
+
+            for (int i = 0; i < mutados.size(); i++) {
+
+             todos.add(Serialization.copy(arboles.get(i)));
+                todos.add(Serialization.copy(mutados.get(i)));
             }
+               
+            Collections.sort(todos);
+            
+            for (int i = 0; i < arboles.size(); i++) {
+                arboles.set(i,todos.get(i));
+            }
+              
+             //System.out.println("tamaño todos"+ todos.size());
+
+             System.out.println("tamaño todos" + todos.size());
+             
 
 
-            Operacion oper = (Operacion) arbol.getRaiz().getDatos();
-            System.out.print("\nRaiz"+"/"+oper.getNombre() + " "); 
-
-            arbol.llenarHojas(tabla, filas, columnas);// llena las hojas con los valores de la tabla
-
-            System.out.println("\ncant nodos:" + arbol.getCont());
-
-            System.out.println("\nPreorden");	
-            arbol.recorridoPreorden();
-            System.out.println("\nInorden");
-            arbol.recorridoInorden();
-            //System.out.println("\nPosorden");
-            //arbol.recorridoPosorden();
-            //System.out.println("\ncontador: " + arbol.getCont());
-
-            Nodo nod = arbol.getRaiz();
-
-            //System.out.println("\nResultado: " + arbol.operarArbol(nod));
-
-
-
-
-            System.out.println("\nNumero de terminales:" + arbol.getBinarios().size() );
-            System.out.println("\nResultado: " + arbol.operarArbol(nod));
-
-            x++;
+             /*for (int i = 0; i < individuos; i++) {
+                 arboles.set(i,todos.get(i));
+             }*/
+              
+            cont ++;  
+        }   
+          
+       
+       /*for (int i = 0; i < individuos; i++) {
+            System.out.print("error total:" + arboles.get(i).getErrorTotal());
+        }*/
+        System.out.println("\nposible solucion");
+        for (int i = 0; i < individuos/2; i++) {
+            imprimirInfo(todos.get(i));
+        
         }
-    */
+        
+    }
+    
+   
+    
+    public void cruzar(){
+        int randCruce=0;
+        int randLvlCruce=0;
+        int cont=0;
+        
+            for (int i = 0; i < mutados.size(); i++) {
+                randCruce=(int) (Math.random()*mutados.size()-1);
+                randLvlCruce=(int) (Math.random()*nivel-1);
+                mutados.get(i).cruzar(mutados.get(randCruce).getRaiz(),nivel-1,randLvlCruce);
+            }
+            
+             for (int i = 0; i < mutados.size(); i++) {
+
+                mutados.get(i).llenarHojasMut(tabla, filas, columnas);
+                mutados.get(i).setErrorTotal(0);
+                mutados.get(i).calcularErrorParcial(tabla, filas, columnas);
+                mutados.get(i).calcularErrorTotal((columnas-1));
+            }
+           
+        
+            generacion++;
+    
     }
     
     public int[][] getTabla() {
@@ -271,6 +280,10 @@ public class CompuertasGeneticas implements Serializable{
     public void setTabla(int[][] tabla) {
         this.tabla = tabla;
     }
+
+    
+ 
+  
     
     
 }

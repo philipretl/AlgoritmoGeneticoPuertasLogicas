@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import compuertas.*;
 import java.io.Serializable;
 import static java.lang.Math.pow;
+import java.util.Collections;
+import java.util.Comparator;
 import logica.Binario;
 
 /*
@@ -16,7 +18,7 @@ import logica.Binario;
  *
  * @author philipretl
  */
-public class ArbolGeneticoPuertas implements Serializable{
+public class ArbolGeneticoPuertas implements Serializable, Comparable<ArbolGeneticoPuertas>{
 
     private Nodo raiz;
     private ArrayList<Operacion> operaciones;
@@ -28,6 +30,8 @@ public class ArbolGeneticoPuertas implements Serializable{
     private ArrayList<String> abecedario;
     private int generacion;
     private boolean mutado;
+    private boolean cruzado;
+    private boolean encontrado;
     
 	
      
@@ -43,8 +47,27 @@ public class ArbolGeneticoPuertas implements Serializable{
         errorTotal=0;
         this.generacion=generacion;
         mutado=false;
+        cruzado=false;
+        encontrado=false;
     }
 
+    public boolean isCruzado() {
+        return cruzado;
+    }
+
+    public void setCruzado(boolean cruzado) {
+        this.cruzado = cruzado;
+    }
+
+    public boolean isEncontrado() {
+        return encontrado;
+    }
+
+    public void setEncontrado(boolean encontrado) {
+        this.encontrado = encontrado;
+    }
+    
+    
     public ArrayList<Operacion> getOperaciones() {
         return operaciones;
     }
@@ -148,16 +171,148 @@ public class ArbolGeneticoPuertas implements Serializable{
     
     }
     
+    public boolean cruzar(Nodo nodo,int altura,int lvlCruce){
+        boolean flag=false;
+        cruzar2(this.raiz,nodo,altura,altura,lvlCruce);
+        
+        return flag;
+    }
+    
+    
+    private synchronized void cruzar2(Nodo base,Nodo nodo, int alturaBas,int alturaNod,int lvlCruce){// requiere que ya se hayan llenado las hojas.
+        int randCruce=0;
+        
+        if(alturaBas==0){
+            return;
+        }else{
+        
+            if(alturaBas==lvlCruce){
+
+                if((base.getHojaIzquierda()!=null || base.getHojaDerecha()!=null) & !cruzado ){
+                   randCruce=(int) (Math.random()*2);
+
+                   if(randCruce ==0 ){// se la meto a la izquierda
+                       randCruce=(int) (Math.random()*2);
+                        if(randCruce==0){//se la metera a la derecha
+                            if(base.getDatos()!=null){ 
+                                if(base.getDatos()!=null){ 
+                                    if(!(base.getDatos() instanceof Binario) & base.getHojaIzquierda()!= null){
+                                            base.getHojaIzquierda().setHojaDerecha(cruzar3(nodo,alturaNod,lvlCruce));
+                                            cruzado=true;
+                                        }else{
+
+                                            return;
+                                        }
+                                }    
+                            }    
+                        }else{
+                            if(base.getDatos()!=null){
+                                if(!(base.getDatos() instanceof Binario)  & base.getHojaIzquierda()!= null){
+                                    base.getHojaIzquierda().setHojaIzquierda(cruzar3(nodo,alturaNod,lvlCruce));
+                                    cruzado=true;
+                                }else{
+
+                                    return;
+                                }
+                            }    
+                        }
+                   }else{//la meto a la derecha
+                       randCruce=(int) (Math.random()*2);
+                        if(randCruce==0){//se la metera a la derecha
+                            
+                            if(base.getDatos()!=null){
+                                if(!(base.getDatos() instanceof Binario)  & base.getHojaDerecha()!= null){
+                                    base.getHojaDerecha().setHojaDerecha(cruzar3(nodo,alturaNod,lvlCruce));
+                                    cruzado=true;
+                                }else{
+
+                                    return;
+                                }
+                            }else{
+                                return;
+                            }    
+                        }else{
+                            if(base.getDatos()!=null){
+                                if(!(base.getDatos() instanceof Binario) & base.getHojaDerecha()!= null ){
+                                    base.getHojaDerecha().setHojaIzquierda(cruzar3(nodo,alturaNod,lvlCruce));
+                                    cruzado=true;
+                                }else{
+
+                                    return;
+                                }
+                            }else{
+                                return;
+                            }        
+                        }
+
+
+                   }
+
+                }
+
+                return;
+
+
+            }else{
+
+                if(base.getHojaIzquierda() != null){
+                    cruzar2(base.getHojaIzquierda(),nodo,alturaBas-1,alturaNod,lvlCruce);
+                }
+                if(base.getHojaDerecha() != null){
+                    cruzar2(base.getHojaDerecha(),nodo,alturaBas-1,alturaNod,lvlCruce);
+
+                }    
+            }
+        }
+    
+    }
+    
+    private synchronized Nodo cruzar3(Nodo nodo,int altura, int lvlCruce){
+        int randCruce=0;
+        if(altura==lvlCruce){
+            
+            if(nodo.getDatos()!=null){
+                if(!(nodo.getDatos() instanceof Binario) & !encontrado){
+                    return nodo;
+                }else{
+                     randCruce=(int) (Math.random()*2);
+                    if((nodo.getHojaIzquierda().getDatos() != null)){ 
+                        if(randCruce == 0 & !(nodo.getHojaIzquierda().getDatos() instanceof Binario) & !encontrado){
+                            return nodo.getHojaIzquierda();
+
+                        }else{
+                            if((nodo.getHojaDerecha().getDatos() != null)){ 
+                                if(!encontrado & !(nodo.getHojaDerecha().getDatos() instanceof Binario))
+                                    return nodo.getHojaDerecha();
+                            }    
+                        }
+                    }else{
+
+                        return null;
+                    }
+                }
+            
+        
+            }else{
+
+                cruzar3(nodo.getHojaIzquierda(),altura-1,lvlCruce);
+                cruzar3(nodo.getHojaDerecha(),altura-1,lvlCruce);
+            }
+        }else{
+            return null;
+        }  
+        return null;
+    }
     
     public void mutar(int altura){
         int lvlMut=0;
         
-        lvlMut=(int) (Math.random()*altura-1);
+        lvlMut=(int) (Math.random()*altura);
         
         /*if(lvlMut==altura){
            lvlMut=0;
         }*/
-        System.out.println("altura: " + altura + " lvlMut:" + lvlMut);
+        //System.out.println("altura: " + altura + " lvlMut:" + lvlMut);
         this.mutar2(this.raiz,altura-1,lvlMut);
         
     }
@@ -513,7 +668,7 @@ public class ArbolGeneticoPuertas implements Serializable{
         for (int p = 0; p < binarios.size(); p++) {
             
             for (int l = 0; l < columnas-1; l++) {
-                System.out.println("id binario: "+binarios.get(p).getLetra());
+                //System.out.println("id binario: "+binarios.get(p).getLetra());
                 if(binarios.get(p).getId()==l){
                     binarios.get(p).setLetra(abecedario.get(l));
                       
@@ -714,6 +869,14 @@ public class ArbolGeneticoPuertas implements Serializable{
         }
     }
     
+   
+	
+     
+   
+
+    
+
+    
      /* esta recursion funcion debo cambiarla ahora a el tipo binario	
     public synchronized int operarArbol(Nodo nodo){
 
@@ -742,6 +905,17 @@ public class ArbolGeneticoPuertas implements Serializable{
 
         }
     }*/
+
+    @Override
+    public int compareTo(ArbolGeneticoPuertas o) {
+        Double a=new Double(this.getErrorTotal());
+        Double b=new Double(o.getErrorTotal());
+        return a.compareTo(b);
+        
+        //return new Integer(p1.getEdad()).compareTo(new Integer(p2.getEdad()));
+    }
+
+   
 
    
 }	
