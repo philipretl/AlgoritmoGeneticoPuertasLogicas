@@ -768,13 +768,13 @@ public class ArbolGeneticoPuertas implements Serializable, Comparable<ArbolGenet
         
         if (nodo.getDatos() instanceof Operacion){
                 Operacion oper = (Operacion) nodo.getDatos();
-                System.out.print("id: "+ nodo.getId() + "["+oper.getNombre() + "] "); 
+                //System.out.print("id: "+ nodo.getId() + "["+oper.getNombre() + "] "); 
                 if(cont==0)
                     recorrido=recorrido+oper.getNombre()+" ( (";
                 recorrido=recorrido+oper.getNombre()+" (";
         }else{
                 Binario bin = (Binario) nodo.getDatos();
-                System.out.print("id: " + nodo.getId() + " ("+ bin.getLetra()+") "  + "["+ bin.getValor()+"] ");
+                //System.out.print("id: " + nodo.getId() + " ("+ bin.getLetra()+") "  + "["+ bin.getValor()+"] ");
                 recorrido=recorrido+bin.getLetra()+" ) ";
         }
 

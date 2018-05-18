@@ -22,6 +22,7 @@ import logica.CompuertasGeneticas;
  */
 public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
 	CompuertasGeneticas compGen;
+        ArrayList<String> letras;
         int n,m;
 	/**
 	 * Creates new form GuiAlgoBinario
@@ -30,13 +31,23 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
 		initComponents();
                 n=0;
                 m=0;
+                letras=new ArrayList<>();
                 txtATabla.setEditable(false);
 		txtAExpresion.setEditable(false);
-                btnPintarArbol.setEnabled(false);
-                btnExpresion.setEnabled(false);
+                iniciarLetras();
 	}
 	
-	
+	public void iniciarLetras(){
+            letras.add("A");
+            letras.add("B");
+            letras.add("C");
+            letras.add("D");
+            letras.add("F");
+            letras.add("G");
+            letras.add("H");
+            letras.add("I");
+            letras.add("J");
+        }
 	public void ensayo(){
 		compGen.arrancar();
 	
@@ -78,9 +89,15 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
         
         public void mostrarMatriz(int[][] matriz){
             String cadena="";
+            int n;
+            n=matriz[0].length;
+            for (int i = 0; i < n; i++) {
+                cadena=cadena+"  |  "+letras.get(i);
+            }
+            cadena=cadena+"\n";
             for (int i = 0; i < matriz.length; i++) {
                 for (int j = 0; j < matriz[j].length; j++) {
-                    cadena=cadena+" "+Integer.toString(matriz[i][j]);
+                    cadena=cadena+"  |  "+Integer.toString(matriz[i][j]);
                 }
                 cadena=cadena+"\n";
             }
@@ -100,27 +117,32 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
         btnExaminar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnIniciar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtATabla = new javax.swing.JTextArea();
-        jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtNumIndividuos = new javax.swing.JTextField();
-        pnlArbol = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         pnlOpciones = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtAExpresion = new javax.swing.JTextArea();
-        btnPintarArbol = new javax.swing.JButton();
-        btnExpresion = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         lblError = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtATabla = new javax.swing.JTextArea();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(153, 255, 153));
 
-        txtRuta.setText("/home/philipretl/NetBeansProjects/AlgoritmoGeneticoCompuertasLogicas/tabla1.txt");
+        pnlDatos.setBackground(new java.awt.Color(255, 255, 255));
+        pnlDatos.setBorder(new javax.swing.border.MatteBorder(null));
 
+        txtRuta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRutaActionPerformed(evt);
+            }
+        });
+
+        btnExaminar.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
         btnExaminar.setText("Examinar");
         btnExaminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,44 +150,38 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Calibri Light", 2, 14)); // NOI18N
         jLabel1.setText("Seleccionar archivo");
 
+        btnIniciar.setBackground(new java.awt.Color(255, 255, 255));
+        btnIniciar.setFont(new java.awt.Font("Calibri Light", 1, 14)); // NOI18N
         btnIniciar.setText("Iniciar");
+        btnIniciar.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 255), new java.awt.Color(204, 204, 204)));
         btnIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIniciarActionPerformed(evt);
             }
         });
 
-        txtATabla.setColumns(20);
-        txtATabla.setRows(5);
-        jScrollPane1.setViewportView(txtATabla);
-
-        jLabel4.setText("Tabla de verdad");
-
+        jLabel6.setFont(new java.awt.Font("Calibri Light", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(51, 51, 255));
         jLabel6.setText("DATOS");
 
+        jLabel7.setFont(new java.awt.Font("Calibri Light", 2, 14)); // NOI18N
         jLabel7.setText("Numero de individuos:");
-
-        txtNumIndividuos.setText("10");
 
         javax.swing.GroupLayout pnlDatosLayout = new javax.swing.GroupLayout(pnlDatos);
         pnlDatos.setLayout(pnlDatosLayout);
         pnlDatosLayout.setHorizontalGroup(
             pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDatosLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(txtRuta)
+                .addGap(18, 18, 18)
+                .addComponent(btnExaminar)
+                .addGap(70, 70, 70))
+            .addGroup(pnlDatosLayout.createSequentialGroup()
                 .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlDatosLayout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlDatosLayout.createSequentialGroup()
-                                .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnExaminar))
-                            .addComponent(jLabel4)
-                            .addGroup(pnlDatosLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(pnlDatosLayout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,7 +195,7 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
                                         .addGap(18, 18, 18)
                                         .addComponent(txtNumIndividuos, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(pnlDatosLayout.createSequentialGroup()
-                        .addGap(136, 136, 136)
+                        .addGap(169, 169, 169)
                         .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -188,61 +204,37 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
             .addGroup(pnlDatosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtNumIndividuos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnExaminar))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(btnIniciar)
-                .addGap(23, 23, 23))
+                .addGap(30, 30, 30)
+                .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46))
         );
 
-        jLabel2.setText("Arbol de expresion");
-
-        javax.swing.GroupLayout pnlArbolLayout = new javax.swing.GroupLayout(pnlArbol);
-        pnlArbol.setLayout(pnlArbolLayout);
-        pnlArbolLayout.setHorizontalGroup(
-            pnlArbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlArbolLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addContainerGap(432, Short.MAX_VALUE))
-        );
-        pnlArbolLayout.setVerticalGroup(
-            pnlArbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlArbolLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        pnlOpciones.setBackground(new java.awt.Color(255, 255, 255));
+        pnlOpciones.setBorder(new javax.swing.border.MatteBorder(null));
 
         txtAExpresion.setColumns(20);
         txtAExpresion.setRows(5);
         jScrollPane2.setViewportView(txtAExpresion);
 
-        btnPintarArbol.setText("Pintar Arbol");
+        jLabel5.setFont(new java.awt.Font("Calibri Light", 1, 16)); // NOI18N
+        jLabel5.setText("Resultados");
 
-        btnExpresion.setText("Mostrar Expresion");
-        btnExpresion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExpresionActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("Opciones");
-
+        jLabel3.setFont(new java.awt.Font("Calibri Light", 2, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 0, 0));
         jLabel3.setText("Error:");
 
+        lblError.setFont(new java.awt.Font("Calibri Light", 2, 14)); // NOI18N
+        lblError.setForeground(new java.awt.Color(255, 51, 51));
         lblError.setText("-");
 
         javax.swing.GroupLayout pnlOpcionesLayout = new javax.swing.GroupLayout(pnlOpciones);
@@ -252,57 +244,57 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
             .addGroup(pnlOpcionesLayout.createSequentialGroup()
                 .addGroup(pnlOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlOpcionesLayout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(pnlOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlOpcionesLayout.createSequentialGroup()
-                                .addComponent(btnExpresion)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnPintarArbol)))
-                    .addGroup(pnlOpcionesLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(pnlOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlOpcionesLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(47, 47, 47))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlOpcionesLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(33, 33, 33)))
-                        .addComponent(lblError)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                        .addComponent(jLabel5))
+                    .addGroup(pnlOpcionesLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel3)
+                        .addGap(86, 86, 86)
+                        .addComponent(lblError))
+                    .addGroup(pnlOpcionesLayout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         pnlOpcionesLayout.setVerticalGroup(
             pnlOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlOpcionesLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel5)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
                 .addGroup(pnlOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(lblError))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addGroup(pnlOpcionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlOpcionesLayout.createSequentialGroup()
-                        .addComponent(btnExpresion)
-                        .addGap(51, 51, 51))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlOpcionesLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)))
-                .addComponent(btnPintarArbol)
-                .addGap(22, 22, 22))
+                    .addComponent(lblError)
+                    .addComponent(jLabel3))
+                .addGap(39, 39, 39))
         );
+
+        txtATabla.setColumns(20);
+        txtATabla.setRows(5);
+        jScrollPane1.setViewportView(txtATabla);
+
+        jLabel4.setFont(new java.awt.Font("Calibri Light", 1, 18)); // NOI18N
+        jLabel4.setText("Tabla de verdad");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlOpciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(pnlArbol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(jLabel4)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -310,11 +302,15 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(pnlDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(pnlOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(pnlArbol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addComponent(pnlOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -362,16 +358,22 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
         
         }else{
             compGen.arrancar();
-            btnPintarArbol.setEnabled(true);
-            btnExpresion.setEnabled(true);
+            JOptionPane.showMessageDialog(null, "Proceso Terminado");
+            double error=compGen.getArboles().get(0).getErrorTotal();
+            error=error*100;
+            
+            if(error>=100){
+                error=100;
+            }
+            lblError.setText(String.valueOf(error)+" % ");
+            String recorridoPreorden = compGen.getArboles().get(0).recorridoPreorden();
+            txtAExpresion.setText(recorridoPreorden);
         }
     }//GEN-LAST:event_btnIniciarActionPerformed
 
-    private void btnExpresionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExpresionActionPerformed
-            // TODO add your handling code here:
-            String recorridoPreorden = compGen.getArboles().get(0).recorridoPreorden();
-        txtAExpresion.setText(recorridoPreorden);
-    }//GEN-LAST:event_btnExpresionActionPerformed
+    private void txtRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRutaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtRutaActionPerformed
 
 	/**
 	 * @param args the command line arguments
@@ -410,11 +412,8 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExaminar;
-    private javax.swing.JButton btnExpresion;
     private javax.swing.JButton btnIniciar;
-    private javax.swing.JButton btnPintarArbol;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -423,7 +422,6 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblError;
-    private javax.swing.JPanel pnlArbol;
     private javax.swing.JPanel pnlDatos;
     private javax.swing.JPanel pnlOpciones;
     private javax.swing.JTextArea txtAExpresion;

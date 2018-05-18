@@ -181,7 +181,7 @@ public class CompuertasGeneticas implements Serializable{
         manejadorGenetico();
         List<ArbolGeneticoPuertas> todos = Serialization.copy(arboles);
         
-        while (cont < 500){
+        while (cont < 100){
             
             mutar();
             cruzar();
@@ -204,7 +204,11 @@ public class CompuertasGeneticas implements Serializable{
             
             Collections.sort(todos);  
      
+<<<<<<< HEAD
            // System.out.println("tamaño todos" + todos.size());
+=======
+            //System.out.println("tamaño todos" + todos.size());
+>>>>>>> 690a93a32dc6d9decbc35134fa2741c215292aba
              
 
             for (int i = 0; i < arboles.size(); i++) {
@@ -214,11 +218,11 @@ public class CompuertasGeneticas implements Serializable{
             cont ++;  
         }   
 
-        System.out.println("\nposible solucion");
+        /*System.out.println("\nposible solucion");
         for (int i = 0; i < individuos; i++) {
             imprimirInfo(arboles.get(i));
         
-        }
+        }*/
         
     }
     
