@@ -362,7 +362,7 @@ public class GuiAlgoBinario extends javax.swing.JFrame implements Serializable {
             //individuos
             
             compGen= new CompuertasGeneticas(n,m,Integer.parseInt(txtNumIndividuos.getText()));
-            //mostrarMatriz(matriz);
+         
             compGen.setTabla(matriz);    
             
             compGen.arrancar();
